@@ -85,7 +85,7 @@
 	  		<tr>
 	  			<td width="1%"></td>
 	  			<td>
-	  					<table width="100%" class="contactsTable" border="0" cellpadding="5" cellspacing="5">
+	  					<table width="100%" class="contactsTable" border="0" cellpadding="4" cellspacing="4">
 					  		<thead>
 					  			<tr>
 					  				<!-- 序号 -->
@@ -355,7 +355,7 @@
 	     </form>
   	</div>
      
-     <div id="detailViewDialog">
+     <div id="detailViewDialog" style="display:none">
   		<table width="100%" class="ui-widget-content" style="word-break: break-all;word-wrap: break-word;overflow: auto;margin-bottom: 10px;">
   			<tr height="30px;">
   				<td width="20%" rowspan="7" style="border:#333 1px dashed;">

@@ -224,6 +224,7 @@ function openDetailViewDialog(id) {
 		closeProcessDialog();
 	    if(data) {
 	    	$("#detailViewDialog").serializeToForm(data, 'text', 'name');
+	    	$("#detailViewDialog td[name='remark']").html(data.remark);
 	    	if(data.logo) {
 	    		$("#detailViewDialog img[name='logo']").attr("src", "download.do?fileName="+id+"/"+data.logo);
 	    	} else {

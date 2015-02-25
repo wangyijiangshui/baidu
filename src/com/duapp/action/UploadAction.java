@@ -24,7 +24,7 @@ import com.duapp.vo.Message;
 
 public class UploadAction extends HttpServlet {
 
-	public static String filePath = "D:/Tomcat6.0/apache-tomcat-6.0.26/concat-photo";
+	public static String filePath = "D:/Tomcat/apache-tomcat-6.0.43/concat-photo";
 	
 	/**
 	 * The doGet method of the servlet. <br>

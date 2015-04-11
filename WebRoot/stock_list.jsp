@@ -148,11 +148,11 @@
 						  				<td class="hqxx" id="zde<%=rs.getString("gpdm")%>">
 						  					<%
 						  						if (-1 != zdbl.indexOf("-")) {
-						  							out.print("<font color='green'>↓"+(rs.getString("zde"))+"</font>");
+						  							out.print("<font color=''>↓"+(rs.getString("zde"))+"</font>");
 						  						} else if (-1 != zdbl.indexOf("0.00") && -1 == zdbl.indexOf("1")) {
 						  							out.print(rs.getString("zde"));
 						  						} else if(!"".equals(zdbl)) {
-						  							out.print("<font color='red'>↑+"+(rs.getString("zde"))+"</font>");
+						  							out.print("<font color=''>↑+"+(rs.getString("zde"))+"</font>");
 						  						}
 						  					%>
 						  				</td>
@@ -160,11 +160,11 @@
 						  				<td class="hqxx" id="zdbl<%=rs.getString("gpdm")%>">
 						  					<%
 						  						if (-1 != zdbl.indexOf("-")) {
-						  							out.print("<font color='green'>↓"+(rs.getString("zdbl"))+"%</font>");
+						  							out.print("<font color=''>↓"+(rs.getString("zdbl"))+"%</font>");
 						  						} else if (-1 != zdbl.indexOf("0.00") && -1 == zdbl.indexOf("1")) {
 						  							out.print(rs.getString("zdbl")+"%");
 						  						} else if(!"".equals(zdbl)){
-						  							out.print("<font color='red'>↑+"+(rs.getString("zdbl"))+"%</font>");
+						  							out.print("<font color=''>↑+"+(rs.getString("zdbl"))+"%</font>");
 						  						}
 						  					%>
 						  				</td>
@@ -202,7 +202,7 @@
 						  					</span>
 						  				</td>
 						  				<!-- 最近更新内容描述 -->
-						  				<td style="color: red;text-align: right;cursor: pointer;" class="read_news_td" nodeId="<%=rs.getInt("id")%>">
+						  				<td style="text-align: right;cursor: pointer;" class="read_news_td" nodeId="<%=rs.getInt("id")%>">
 						  					<%=null != rs.getObject("updateType") ? rs.getString("updateType"):""%>
 						  				</td>
 						  			</tr>

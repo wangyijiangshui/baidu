@@ -156,7 +156,7 @@
 				int_second = "0" + int_second;      
 				setTimeout("myLiveCountdown()",1000);
 				// 显示倒计时效果 
-				$("#myLiveCountdown").html(int_day+"天"+int_hour+"时"+int_minute+"分"+int_second+"秒");
+				$("#myLiveCountdown").html(int_day+"天"+int_hour+"时"+int_minute+"分"+int_second+"秒&nbsp;&nbsp;&nbsp;&nbsp;<s style='color:grey'>"+(7517-int_day)+"</s>");
 			} else {
 				// 显示倒计时效果 
 				$("#myLiveCountdown").html("20年走完，水，你现在幸福吗？");

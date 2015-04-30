@@ -149,12 +149,12 @@ function refreshPageButton() {
 			$.each(eval('('+data.msg+')'), function(i, v){
 				if (v.zdbl > 0) {
 					$("#gpjgsz"+v.gpdm).html(v.gpjg);
-					$("#zdesz"+v.gpdm).html('<font color="red">↑+'+v.zde+'</font>');
+					$("#zdesz"+v.gpdm).html('<font color="">↑+'+v.zde+'</font>');
 					$("#zdblsz"+v.gpdm).html('<font color="red">↑+'+v.zdbl+'%</font>');
 				} else if (v.zdbl < 0) {
 					$("#gpjgsz"+v.gpdm).html(v.gpjg);
-					$("#zdesz"+v.gpdm).html('<font color="green">↓'+v.zde+'</font>');
-					$("#zdblsz"+v.gpdm).html('<font color="green">↓'+v.zdbl+'%</font>');
+					$("#zdesz"+v.gpdm).html('<font color="">↓'+v.zde+'</font>');
+					$("#zdblsz"+v.gpdm).html('<font color="">↓'+v.zdbl+'%</font>');
 				} else {
 					$("#gpjgsz"+v.gpdm).html(v.gpjg);
 					$("#zdesz"+v.gpdm).html(v.zde);

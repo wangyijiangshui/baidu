@@ -257,4 +257,22 @@ public class CommonUtil {
 		}
 		return result;
 	}
+	
+	/**
+	 * 将字符串转化成小数
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static float StringToFloat(String str) {
+		float result = 0;
+		if(null != str && !"".equals(str)) {
+			try {
+				result = Float.parseFloat(str);
+			} catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 }

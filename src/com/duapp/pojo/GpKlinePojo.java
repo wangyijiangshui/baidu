@@ -1,5 +1,7 @@
 package com.duapp.pojo;
 
+import com.duapp.util.CommonUtil;
+
 /**
  * 股票K线数据
  * 
@@ -11,6 +13,8 @@ public class GpKlinePojo {
 	private int id;
 	/** 股票代码 */
 	private String gpdm;
+	/** 将股票代码转化成整数（gpdmInt=gpdm+1000000） */
+	private int gpdmInt;
 	/** 日期 */
 	private int klineDay;
 	/** 开盘价 */
@@ -21,6 +25,8 @@ public class GpKlinePojo {
 	private float zdPrice;
 	/** 收盘价 */
 	private float spPrice;
+	/** 涨跌幅 */
+	private float zdf;
 	/** 交易量(手) */
 	private float cjl;
 	/** 交易额(元) */
@@ -106,6 +112,18 @@ public class GpKlinePojo {
 
 	public void setGpdm(String gpdm) {
 		this.gpdm = gpdm;
+	}
+
+	public int getGpdmInt() {
+		return CommonUtil.StringToInt(gpdm) + 1000000;
+	}
+
+	public float getZdf() {
+		return zdf;
+	}
+
+	public void setZdf(float zdf) {
+		this.zdf = zdf;
 	}
 
 }

@@ -42,7 +42,7 @@ public class DBUtil {
 			String connName = dbUrl + serverName + databaseName;
 //			String connName = dbUrl + serverName + databaseName+"?useUnicode=true&amp;characterEncoding=utf-8";
 			 
-			System.out.println("connect to : " + connName);
+			//System.out.println("connect to : " + connName);
 			
 			/******2. 接着连接并选择数据库名为databaseName的服务器******/
 			Class.forName(driverName);

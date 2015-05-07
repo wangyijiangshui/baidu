@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.duapp.pojo.GpKlinePojo;
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
@@ -20,6 +22,8 @@ import com.duapp.util.DBUtil;
  *
  */
 public class DayKlineDataDao {
+	
+	private Logger logger = Logger.getLogger(DayKlineDataDao.class);      
 	
 	public static void main(String[]args) throws IOException {
 		DayKlineDataDao dayKlineDataDao = new DayKlineDataDao();
@@ -41,24 +45,25 @@ public class DayKlineDataDao {
 				List<GpKlinePojo> gpKlinePojos = null;
 				
 				for (int year = endYear; year >= spiderKlineStartYear; year--) {
-					System.out.print(year+":");
+					logger.info(year+":");
 					String klineDataStr = CommonUtil.getURLContent(DayKlineDataDao.klineDataUrl.replace("gpdm", gpdm).replace("yyyy", year+""), "gbk");
-					System.out.print("=");
+					logger.info("=");
 					klineDataStr = klineDataStr.replaceFirst(".+\\(\\{\"data\":\"", "").replaceFirst("\"}\\)", "");
 					if(null == klineDataStr || "".equals(klineDataStr)) {
 						continue;
 					}
-					System.out.print("=");
+					logger.info("=");
 					if(null == gpKlinePojos) {
 						gpKlinePojos = this.parseKlineData(gpdm, klineDataStr, 1);
 					} else {
 						gpKlinePojos.addAll(this.parseKlineData(gpdm, klineDataStr, 1));
 					}
-					System.out.print(",");
+					logger.info(",");
 				}
-				System.out.print("=");
+				logger.info("=");
 				this.saveKlineData(gpKlinePojos);
-				System.out.print("\n");
+				logger.info("\n");
+				Thread.sleep((1 * 1000));
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

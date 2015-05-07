@@ -33,6 +33,11 @@
 	    <servlet-name>loginAction</servlet-name>
 	    <servlet-class>com.duapp.action.LoginAction</servlet-class>
 	  </servlet>
+	  <servlet>
+	    <servlet-name>StockKlineDataSpiderAction</servlet-name>
+	    <servlet-class>com.duapp.action.StockKlineDataSpiderAction</servlet-class>
+	  </servlet>
+
 
 
 	  <servlet-mapping>
@@ -62,6 +67,10 @@
 	  <servlet-mapping>
 	    <servlet-name>loginAction</servlet-name>
 	    <url-pattern>/login.do</url-pattern>
+	  </servlet-mapping>
+	  <servlet-mapping>
+	    <servlet-name>StockKlineDataSpiderAction</servlet-name>
+	    <url-pattern>/stockKlineDataSpiderAction.do</url-pattern>
 	  </servlet-mapping>
 	  
 	  

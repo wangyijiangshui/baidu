@@ -13,19 +13,15 @@ import com.duapp.pojo.GpKlinePojo;
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
 
+/**
+ * 抓取股票的日K线数据
+ * 
+ * @author Administrator
+ *
+ */
 public class DayKlineDataDao {
-
 	
 	public static void main(String[]args) throws IOException {
-//		String url = "http://d.10jqka.com.cn/v2/line/hs_000651/01/today.js";
-//		url = "http://d.10jqka.com.cn/v2/line/hs_000651/01/1991.js";
-//		url = "http://d.10jqka.com.cn/v2/line/hs_000651/01/2014.js";
-		//Document doc = Jsoup.connect(url).get();
-//		String klineDataStr = CommonUtil.getURLContent(url, "gbk");
-//		System.out.println(klineDataStr);
-//		klineDataStr = klineDataStr.replaceFirst(".+\\(\\{\"data\":\"", "").replaceFirst("\"}\\)", "");
-//		System.out.println(klineDataStr);
-		
 		DayKlineDataDao dayKlineDataDao = new DayKlineDataDao();
 		List<String> gpdms = dayKlineDataDao.getAllGpdm();
 		dayKlineDataDao.spiderForKlineFromThsWebsit(gpdms, dayKlineDataDao);
@@ -98,12 +94,11 @@ public class DayKlineDataDao {
 	private static Connection conn = DBUtil.getConnection();
 	public boolean saveKlineData(List<GpKlinePojo> gpKlinePojos) {
 		boolean result  = false;
-		//Connection conn = null;
+		int gpdmInt = 0;
 		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO `tbl_gp_kline`(`gpdm`,`gpdmInt`,`klineDay`,`kpPrice`,`zgPrice`,`zdPrice`,`spPrice`,`zdf`," +
 						"`cjl`,`cje`,`klineType`,`createTime`) VALUES (?,?,?,?,?,?,?,?,?,?,?,now())";
 		try {
-			//conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);  
 			pstmt = conn.prepareStatement(sql);
 			float preDaySpPrice = 0;
@@ -127,8 +122,13 @@ public class DayKlineDataDao {
 				pstmt.setFloat(index++, gpKline.getCje());
 				pstmt.setFloat(index++, gpKline.getKlineType());
 				pstmt.addBatch();
+				gpdmInt = gpKline.getGpdmInt();
 			}
 			pstmt.executeBatch();
+			conn.commit();
+			sql = "update tbl_gp set haveDayKline=1 where gpdmInt="+gpdmInt;
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
 			conn.commit();
 			result = true;
 		} catch (Exception e) {
@@ -148,7 +148,7 @@ public class DayKlineDataDao {
 		try {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
-			sql = "SELECT gpdm from tbl_gp";
+			sql = "SELECT gpdm from tbl_gp where haveDayKline=0";
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				gpdms.add(rs.getString("gpdm").replace("sz", ""));

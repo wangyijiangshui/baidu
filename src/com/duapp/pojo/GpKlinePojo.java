@@ -10,6 +10,13 @@ import com.duapp.util.CommonUtil;
  */
 public class GpKlinePojo {
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "gpdm:"+gpdm+",gpdmInt:"+gpdmInt+",klineDay:"+klineDay+",kpPrice:"+kpPrice+",zgPrice:"+zgPrice+",zdPrice:"+zdPrice+",spPrice:"
+				+spPrice+",zdf:"+zdf+",cjl:"+cjl+",cje:"+cje+",klineType:"+klineType;
+	}
+
 	private int id;
 	/** 股票代码 */
 	private String gpdm;

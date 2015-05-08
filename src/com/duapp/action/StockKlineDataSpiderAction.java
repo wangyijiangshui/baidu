@@ -1,15 +1,10 @@
 package com.duapp.action;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.duapp.dao.DayKlineDataDao;
 
 public class StockKlineDataSpiderAction extends BaseAction {
 
@@ -55,9 +50,9 @@ public class StockKlineDataSpiderAction extends BaseAction {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		DayKlineDataDao dayKlineDataDao = new DayKlineDataDao();
-		List<String> gpdms = dayKlineDataDao.getAllGpdm();
-		dayKlineDataDao.spiderForKlineFromThsWebsit(gpdms, dayKlineDataDao);
+//		DayKlineDataDao dayKlineDataDao = new DayKlineDataDao();
+//		List<GpInfo> gpInfos = dayKlineDataDao.getAllGpdm();
+//		dayKlineDataDao.spiderForKlineFromThsWebsit(gpInfos, dayKlineDataDao);
 	}
 
 	/**

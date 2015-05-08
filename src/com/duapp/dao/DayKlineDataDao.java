@@ -22,13 +22,13 @@ import com.duapp.util.DBUtil;
  *
  */
 public class DayKlineDataDao {
-	
+	/***/
 	private Logger logger = Logger.getLogger(DayKlineDataDao.class);      
 	
 	public static void main(String[]args) throws IOException {
 		DayKlineDataDao dayKlineDataDao = new DayKlineDataDao();
-		List<String> gpdms = dayKlineDataDao.getAllGpdm();
-		dayKlineDataDao.spiderForKlineFromThsWebsit(gpdms, dayKlineDataDao);
+		List<GpInfo> gpInfos = dayKlineDataDao.getAllGpdm();
+		dayKlineDataDao.spiderForKlineFromThsWebsit(gpInfos, dayKlineDataDao);
 	}
 
 	private static String klineDataUrl = "http://d.10jqka.com.cn/v2/line/hs_gpdm/01/yyyy.js";
@@ -36,33 +36,37 @@ public class DayKlineDataDao {
 	private static int endYear = CommonUtil.StringToInt(CommonUtil.formatDate(new Date(), "yyyy"));
 	//抓取股票K数据的起始年份（2000年）
 	private static int spiderKlineStartYear = 2000; 
-	public void spiderForKlineFromThsWebsit(List<String> gpdms, DayKlineDataDao dayKlineDataDao) {
+	public void spiderForKlineFromThsWebsit(List<GpInfo> gpInfos, DayKlineDataDao dayKlineDataDao) {
 		int index = 0;
-		for (String gpdm : gpdms) {
+		for (GpInfo gpInfo : gpInfos) {
 			index = index + 1;
 			try {
-				System.out.print(index+":"+gpdm+"->");
+				logger.info(index+":"+gpInfo.getGpdm()+"->");
 				List<GpKlinePojo> gpKlinePojos = null;
 				
 				for (int year = endYear; year >= spiderKlineStartYear; year--) {
 					logger.info(year+":");
-					String klineDataStr = CommonUtil.getURLContent(DayKlineDataDao.klineDataUrl.replace("gpdm", gpdm).replace("yyyy", year+""), "gbk");
-					logger.info("=");
+					String klineDataStr = CommonUtil.getURLContent(DayKlineDataDao.klineDataUrl.replace("gpdm", gpInfo.getGpdm()).replace("yyyy", year+""), "gbk");
+					logger.info(",");
 					klineDataStr = klineDataStr.replaceFirst(".+\\(\\{\"data\":\"", "").replaceFirst("\"}\\)", "");
 					if(null == klineDataStr || "".equals(klineDataStr)) {
 						continue;
 					}
-					logger.info("=");
+					logger.info(",");
 					if(null == gpKlinePojos) {
-						gpKlinePojos = this.parseKlineData(gpdm, klineDataStr, 1);
+						gpKlinePojos = this.parseKlineData(gpInfo.getGpdm(), klineDataStr, 1);
 					} else {
-						gpKlinePojos.addAll(this.parseKlineData(gpdm, klineDataStr, 1));
+						gpKlinePojos.addAll(this.parseKlineData(gpInfo.getGpdm(), klineDataStr, 1));
 					}
 					logger.info(",");
+					//当前就小于等于上市时间，退出本股票K数据的抓取
+					if (year <= gpInfo.getSssj()) {
+						break;
+					}
 				}
-				logger.info("=");
+				logger.info("saving...");
 				this.saveKlineData(gpKlinePojos);
-				logger.info("\n");
+				logger.info("end\n");
 				Thread.sleep((1 * 1000));
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -112,8 +116,9 @@ public class DayKlineDataDao {
 				if(0 == preDaySpPrice){
 					preDaySpPrice = gpKline.getKpPrice();
 				}
-				gpKline.setZdf((gpKline.getSpPrice()-preDaySpPrice)/preDaySpPrice);
+				gpKline.setZdf((gpKline.getSpPrice()-preDaySpPrice)/(0==preDaySpPrice ? 1:preDaySpPrice));
 				preDaySpPrice = gpKline.getSpPrice();
+				
 				int index = 1;
 				pstmt.setString(index++, gpKline.getGpdm());
 				pstmt.setInt(index++, gpKline.getGpdmInt());
@@ -128,9 +133,12 @@ public class DayKlineDataDao {
 				pstmt.setFloat(index++, gpKline.getKlineType());
 				pstmt.addBatch();
 				gpdmInt = gpKline.getGpdmInt();
+				//System.out.println(gpKline);
 			}
 			pstmt.executeBatch();
 			conn.commit();
+			pstmt.clearBatch();
+			
 			sql = "update tbl_gp set haveDayKline=1 where gpdmInt="+gpdmInt;
 			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
@@ -144,26 +152,56 @@ public class DayKlineDataDao {
 		return result;
 	}
 	
-	public List<String> getAllGpdm() {
+	public List<GpInfo> getAllGpdm() {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql = null;
-		List<String> gpdms = new ArrayList<String>();
+		List<GpInfo> gpInfos = new ArrayList<GpInfo>();
 		try {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
-			sql = "SELECT gpdm from tbl_gp where haveDayKline=0";
+			sql = "SELECT gpdm,sssj from tbl_gp where haveDayKline=0";
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
-				gpdms.add(rs.getString("gpdm").replace("sz", ""));
+				GpInfo gpInfo = new GpInfo();
+				gpInfo.setGpdm(rs.getString("gpdm").replace("sz", ""));
+				gpInfo.setSssj(rs.getInt("sssj")/10000);
+				gpInfos.add(gpInfo);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.close(rs, stmt, conn);
 		}
-		return gpdms;
+		System.out.println("gpInfos="+gpInfos);
+		return gpInfos;
 	}
 	
+	/**
+	 * 
+	 * @author Administrator
+	 *
+	 */
+	private class GpInfo{
+		private String gpdm;
+		private int sssj;
+		public String getGpdm() {
+			return gpdm;
+		}
+		public void setGpdm(String gpdm) {
+			this.gpdm = gpdm;
+		}
+		public int getSssj() {
+			return sssj;
+		}
+		public void setSssj(int sssj) {
+			this.sssj = sssj;
+		}
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return this.gpdm+" "+this.sssj;
+		}
+	}
 }

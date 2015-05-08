@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import com.duapp.dao.DayKlineDataDao;
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
 import com.duapp.vo.StockRemark;
@@ -23,6 +26,9 @@ import com.duapp.vo.Message;
 
 public class StockAction extends HttpServlet {
 
+	/***/
+	private Logger logger = Logger.getLogger(StockAction.class); 
+	
 	/**
 	 * The doGet method of the servlet. <br>
 	 *
@@ -201,34 +207,34 @@ public class StockAction extends HttpServlet {
 		ResultSet rs = null;
 		boolean result = false;
 		try {
-			conn = DBUtil.getConnection();
-			stmt = conn.createStatement();
-			updateStmt = conn.createStatement();
-			sql = "SELECT gpdm,icbhy,ltag FROM tbl_gp";
-			rs = stmt.executeQuery(sql);
 			String gpdm = null;
 			String xmlDoc = null;
 			String url = null;
 			
-			String icbhy="";
-			String ltag="";
-			String updateType = "";
-			
+			conn = DBUtil.getConnection();
+			conn.setAutoCommit(false);
+			stmt = conn.createStatement();
+			updateStmt = conn.createStatement();
+			sql = "SELECT gpdm,icbhy,ltag FROM tbl_gp";
+			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
-				updateType = "";
-				icbhy="";
-				ltag="";
+				String icbhy="";
+				String ltag="0";
+				//上市时间
+				String sssj = "0";
+				String updateType = "";
 				try {
 					gpdm = rs.getString("gpdm");
 					if (null != gpdm && !"".equals(gpdm)) {
 						url = "http://stockdata.stock.hexun.com/"+(gpdm.replace("sz", ""))+".shtml";
 						xmlDoc = CommonUtil.getURLContent(url, "gbk");
-						
+						//ICB行业
 						Pattern p = Pattern.compile("quote.hexun.com/stock/icb.aspx\\?code=.*?>(.*?)</a>");
 					    Matcher m = p.matcher(xmlDoc);
 					    if(m.find()) {
 					    	icbhy = m.group(1);
 					    }
+					    //流通A股
 					    p = Pattern.compile("stockdata.stock.hexun.com/gszl/jbzllinkPage.aspx\\?c=.*?>(.*?)</a>");
 					    m = p.matcher(xmlDoc);
 					    int i = 0;
@@ -238,6 +244,21 @@ public class StockAction extends HttpServlet {
 					    		break;
 					    	}
 					    }
+					    if (null == ltag || "".equals(ltag)) {
+					    	ltag = "0";
+					    }
+					    //上市时间
+					    p = Pattern.compile("var debutDate = \"(.*?)\";");
+					    m = p.matcher(xmlDoc);
+					    if(m.find()) {
+					    	sssj = m.group(1);
+					    }
+					    if (null != sssj && !"".equals(sssj)) {
+					    	sssj = sssj.replace("-", "");
+					    } else {
+					    	sssj = "0";
+					    }
+					    
 					    //如果本次更新的内容与数据库中保存的不一致，则记录本次新的内容
 					    if (null != icbhy && !icbhy.equals(rs.getString("icbhy")) && null != rs.getString("icbhy")) {
 					    	updateType = rs.getString("icbhy") + "->" + icbhy;
@@ -247,21 +268,26 @@ public class StockAction extends HttpServlet {
 					    }
 					    
 					    if (null != updateType && !"".equals(updateType)) {
-					    	updateStmt.executeUpdate("update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',updateType='"+updateType+"',updateTypeTime=now() where gpdm='"+gpdm+"'");
+					    	updateStmt.addBatch("update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',updateType='"+updateType+"',sssj="+sssj+",updateTypeTime=now() where gpdm='"+gpdm+"'");
 					    } else {
-					    	updateStmt.executeUpdate("update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"' where gpdm='"+gpdm+"'");
+					    	updateStmt.addBatch("update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',sssj="+sssj+" where gpdm='"+gpdm+"'");
 					    }
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				logger.info("gpdm="+gpdm);
 			}
+			logger.info("saving......");
+			updateStmt.executeBatch();
+			conn.commit();
+			logger.info("saving success!!!!");
 			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			DBUtil.close(rs, stmt, conn);
 			DBUtil.close(updateStmt, null);
+			DBUtil.close(rs, stmt, conn);
 		}
 		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
 	}

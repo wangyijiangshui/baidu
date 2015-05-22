@@ -59,7 +59,7 @@ public class DayKlineDataDao {
 						gpKlinePojos.addAll(this.parseKlineData(gpInfo.getGpdm(), klineDataStr, 1));
 					}
 					logger.info(",");
-					//当前就小于等于上市时间，退出本股票K数据的抓取
+					//当前年份小于等于上市时间，退出本股票K数据的抓取
 					if (year <= gpInfo.getSssj()) {
 						break;
 					}
@@ -133,7 +133,6 @@ public class DayKlineDataDao {
 				pstmt.setFloat(index++, gpKline.getKlineType());
 				pstmt.addBatch();
 				gpdmInt = gpKline.getGpdmInt();
-				//System.out.println(gpKline);
 			}
 			pstmt.executeBatch();
 			conn.commit();
@@ -174,7 +173,7 @@ public class DayKlineDataDao {
 		} finally {
 			DBUtil.close(rs, stmt, conn);
 		}
-		System.out.println("gpInfos="+gpInfos);
+		logger.info("gpInfos=("+gpInfos.size()+")"+gpInfos);
 		return gpInfos;
 	}
 	

@@ -91,7 +91,8 @@ function openQzChangeDialog(id) {
 function submitWeightChange() {
 	var gpjzqz = $("#gpjzqz").val();
 	var remark = $.trim($("#remark1").val());
-	$.post("stock.do?method=changeWeight",{"gpjzqz":gpjzqz,"remark":remark,"id":operatorId},function(data){
+	var star = $("#star").val();
+	$.post("stock.do?method=changeWeight",{"gpjzqz":gpjzqz,"star":star,"remark":remark,"id":operatorId},function(data){
 	    if(data && data.result) {
 	    	alert("操作成功！");
 	    	$( "#weightChangeDialog").dialog( "close" );
@@ -148,17 +149,17 @@ function refreshPageButton() {
 	    if(data && data.result) {
 			$.each(eval('('+data.msg+')'), function(i, v){
 				if (v.zdbl > 0) {
-					$("#gpjgsz"+v.gpdm).html(v.gpjg);
-					$("#zdesz"+v.gpdm).html('<font color="">↑+'+v.zde+'</font>');
-					$("#zdblsz"+v.gpdm).html('<font color="red">↑+'+v.zdbl+'%</font>');
+					$("#gpjg"+v.gpdm).html(v.gpjg);
+					$("#zde"+v.gpdm).html('<font color="">↑+'+v.zde+'</font>');
+					$("#zdbl"+v.gpdm).html('<font color="red">↑+'+v.zdbl+'%</font>');
 				} else if (v.zdbl < 0) {
-					$("#gpjgsz"+v.gpdm).html(v.gpjg);
-					$("#zdesz"+v.gpdm).html('<font color="">↓'+v.zde+'</font>');
-					$("#zdblsz"+v.gpdm).html('<font color="">↓'+v.zdbl+'%</font>');
+					$("#gpjg"+v.gpdm).html(v.gpjg);
+					$("#zde"+v.gpdm).html('<font color="">↓'+v.zde+'</font>');
+					$("#zdbl"+v.gpdm).html('<font color="">↓'+v.zdbl+'%</font>');
 				} else {
-					$("#gpjgsz"+v.gpdm).html(v.gpjg);
-					$("#zdesz"+v.gpdm).html(v.zde);
-					$("#zdblsz"+v.gpdm).html(v.zdbl+'%');
+					$("#gpjg"+v.gpdm).html(v.gpjg);
+					$("#zde"+v.gpdm).html(v.zde);
+					$("#zdbl"+v.gpdm).html(v.zdbl+'%');
 				}
 			});		    	
 	    }

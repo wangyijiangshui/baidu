@@ -30,6 +30,7 @@ public class DBUtil {
 			if (!System.getProperty("os.name").toLowerCase().equals("linux")) {
 				/*****本地数据库连接信息*****/
 				databaseName = "sBanHmsWVscLxJvnfqRN";
+				//databaseName = "testdb";
 				host = "127.0.0.1";
 				port = "3306";
 				username = "root";//用户名(api key);

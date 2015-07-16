@@ -56,9 +56,9 @@
 		int width = 0;
 		int height = 0;
 		if ((null == bigOrSmall || "".equals(bigOrSmall) || "small".equals(bigOrSmall)) && null == orderby) {
-			bigOrSmall = "big";
-		} else if(null == orderby) {
 			bigOrSmall = "small";
+		} else if(null == orderby) {
+			bigOrSmall = "big";
 		}
 		if ("big".equals(bigOrSmall)) {
 			width = 105;

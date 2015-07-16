@@ -1,10 +1,12 @@
 package com.duapp.util;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,6 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 
 /**
@@ -38,7 +45,7 @@ public class CommonUtil {
 		if (null == str || "".equals(str)) {
 			return "......";
 		} else if (str.length()>length) {
-			return str.substring(0,length)+"...";
+			return str.substring(0,length)+"..";
 		} else {
 			return str;
 		}
@@ -60,6 +67,11 @@ public class CommonUtil {
 			return "http://stockpage.10jqka.com.cn/"+gpdm+"/";
 		//新浪
 		} else if("sina".equals(website)) {
+			if(gpdm.startsWith("00") || gpdm.startsWith("30")) {
+				gpdm = "sz"+gpdm;
+			} else {
+				gpdm = "sh"+gpdm;
+			}
 			return "http://finance.sina.com.cn/realstock/company/"+gpdm+"/nc.shtml";
 		} else {
 			return "#";
@@ -233,12 +245,53 @@ public class CommonUtil {
 	  }
 	  // 处理异常
 	  catch (MalformedURLException e) {
-		  System.err.println(e);
+		  e.printStackTrace();
 	  } catch (IOException e) {
-		  System.err.println(e);
+		  e.printStackTrace();
 	  }
 	  return content.toString();
 	}
+	
+	/**
+	 * 获取指定网址的网页html代码
+	 * 
+	 * @param url
+	 * @param encoding
+	 * @return
+	 */
+	public static String getURLContentByHttpClient(String url, String encoding) {
+        BufferedReader in = null;  
+        String content = null;  
+        try {
+            // 定义HttpClient  
+            HttpClient client = new DefaultHttpClient();  
+            // 实例化HTTP方法  
+            HttpGet request = new HttpGet();  
+            request.setURI(new URI(url));  
+            HttpResponse response = client.execute(request);  
+            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));  
+            StringBuffer sb = new StringBuffer("");  
+            String line = "";  
+            //String NL = System.getProperty("line.separator");  
+            while ((line = in.readLine()) != null) {  
+                sb.append(line);  
+            }  
+            in.close();  
+            content = sb.toString();  
+        }catch(Exception ex) {
+        	ex.printStackTrace();
+        } finally {
+            if (in != null) {  
+                try {
+                    in.close();// 最后要关闭BufferedReader  
+                } catch (Exception e) {  
+                    e.printStackTrace();  
+                }
+            }  
+            
+        }
+        return content;  
+    } 
 	
 	/**
 	 * 将字符串转化成整数

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.duapp.dao.network.StockDao;
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
 import com.duapp.vo.Message;
@@ -26,7 +27,7 @@ import com.duapp.vo.StockRemark;
 public class StockAction extends HttpServlet {
 
 	/***/
-	private Logger logger = Logger.getLogger(StockAction.class); 
+	private Logger log = Logger.getLogger(StockAction.class); 
 	
 	/**
 	 * The doGet method of the servlet. <br>
@@ -159,22 +160,27 @@ public class StockAction extends HttpServlet {
 			xmlDoc = xmlDoc.substring(xmlDoc.indexOf("= ")+3, xmlDoc.indexOf("];")).trim();
 			gpdms = xmlDoc.split("],");
 			//先清空数据库中股票的价格信息数据
-			sql = "update tbl_gp set gpjg=null,zde=null,zdbl=null";
+			sql = "update tbl_gp set gpjg=0,zde=0,zdbl=0,huanShou=0,zhenFu=0,liangBi=0";
 			updateStmt.executeUpdate(sql);
+			int index = 0;
 			for (String gpdm : gpdms) {
+				index = index + 1;
 				try {
 					gpInfos = gpdm.trim().replace("[", "").replace("'", "").replace("]", "").split(",");
-					//根据现价和涨跌幅度及时涨跌额度
+					//根据现价和涨跌幅度计算涨跌额度
 					String zde = ((Float.parseFloat(gpInfos[2])*Float.parseFloat(gpInfos[3]))/100)+"";
 					zde = zde.length() > 4 ? zde.substring(0,4) : zde;
 					
-					sql = "update tbl_gp set gsmc='"+gpInfos[1]+"',gpjg='"+gpInfos[2]+"',zde='"+zde+"',zdbl='"+gpInfos[3]+
-							"' where gpdm='sz"+gpInfos[0]+"'";
-					System.out.println("sql="+sql);
-					//如果没有更新成功，则判断当前股票是否是深圳A股，如果是则保存
+					sql = "update tbl_gp set gsmc='"+gpInfos[1]+"',gpjg='"+gpInfos[2]+"',zde='"+zde+"',zdbl='"+gpInfos[3]+"',huanShou="+gpInfos[10]+
+							",zhenFu="+gpInfos[11]+",liangBi="+gpInfos[12]+" where gpdm='"+gpInfos[0]+"'";
+					log.info(index+"、sql="+sql);
+					//如果没有更新成功，则判断当前股票是否是深圳A股中小企业板，如果是则保存
 					if(updateStmt.executeUpdate(sql) <= 0 && gpInfos[0].startsWith("00")) {
-						sql  = "INSERT INTO `tbl_gp`(`gpdm`,`gsmc`,`gpjzqz`,`gpjg`,`zde`,`zdbl`,`updateType`,`updateTypeTime`) " +
-									"VALUES ('sz"+gpInfos[0]+"','"+gpInfos[1]+"',-1,'"+gpInfos[2]+"','"+zde+"','"+gpInfos[3]+"','NEW!!',now())";
+						String sssj = StockDao.getStockSssj(gpInfos[0]);//获取是上市时间
+						sql  = "INSERT INTO `tbl_gp`(`gpdm`,`gsmc`,`gpjzqz`,`gpjg`,`zde`,`zdbl`,huanShou,zhenFu,liangBi,sssj,`updateType`,`updateTypeTime`) " +
+									"VALUES ('"+gpInfos[0]+"','"+gpInfos[1]+"',-1,'"+gpInfos[2]+"','"+zde+"',"+gpInfos[3]+","+gpInfos[10]+
+									","+gpInfos[11]+","+gpInfos[12]+","+sssj+",'NEW!!',now())";
+						log.info(index+"、update faile and inser sql="+sql);
 						updateStmt.executeUpdate(sql);
 					}
 				} catch (Exception e) {
@@ -199,6 +205,7 @@ public class StockAction extends HttpServlet {
 	 * @param response
 	 */
 	public void refreshBaseButton(HttpServletRequest request, HttpServletResponse response) {
+		log.info("start to refresh base info:");
 		Connection conn = null;
 		Statement stmt = null;
 		Statement updateStmt = null;
@@ -209,24 +216,28 @@ public class StockAction extends HttpServlet {
 			String gpdm = null;
 			String xmlDoc = null;
 			String url = null;
+			int index = 0;
 			
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
 			stmt = conn.createStatement();
 			updateStmt = conn.createStatement();
-			sql = "SELECT gpdm,icbhy,ltag FROM tbl_gp";
+			sql = "SELECT gpdm,icbhy,ltag FROM tbl_gp order by gpjzqz desc";
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
+				index = index + 1;
+				//ICB行业
 				String icbhy="";
+				//流通A股(亿)
 				String ltag="0";
-				//上市时间
-				String sssj = "0";
+				//市盈率
+				float jtsyl = 0;
 				String updateType = "";
 				try {
 					gpdm = rs.getString("gpdm");
 					if (null != gpdm && !"".equals(gpdm)) {
-						url = "http://stockdata.stock.hexun.com/"+(gpdm.replace("sz", ""))+".shtml";
-						xmlDoc = CommonUtil.getURLContent(url, "gbk");
+						url = "http://stockdata.stock.hexun.com/"+(gpdm)+".shtml";
+						xmlDoc = CommonUtil.getURLContentByHttpClient(url, "gbk");
 						//ICB行业
 						Pattern p = Pattern.compile("quote.hexun.com/stock/icb.aspx\\?code=.*?>(.*?)</a>");
 					    Matcher m = p.matcher(xmlDoc);
@@ -246,18 +257,8 @@ public class StockAction extends HttpServlet {
 					    if (null == ltag || "".equals(ltag)) {
 					    	ltag = "0";
 					    }
-					    //上市时间
-					    p = Pattern.compile("var debutDate = \"(.*?)\";");
-					    m = p.matcher(xmlDoc);
-					    if(m.find()) {
-					    	sssj = m.group(1);
-					    }
-					    if (null != sssj && !"".equals(sssj)) {
-					    	sssj = sssj.replace("-", "");
-					    } else {
-					    	sssj = "0";
-					    }
-					    
+					    //市盈率
+					    jtsyl = StockDao.getStockJtsylFromHexun(gpdm);
 					    //如果本次更新的内容与数据库中保存的不一致，则记录本次新的内容
 					    if (null != icbhy && !icbhy.equals(rs.getString("icbhy")) && null != rs.getString("icbhy")) {
 					    	updateType = rs.getString("icbhy") + "->" + icbhy;
@@ -267,20 +268,22 @@ public class StockAction extends HttpServlet {
 					    }
 					    
 					    if (null != updateType && !"".equals(updateType)) {
-					    	updateStmt.addBatch("update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',updateType='"+updateType+"',sssj="+sssj+",updateTypeTime=now() where gpdm='"+gpdm+"'");
+					    	sql = "update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',jtsyl="+jtsyl+",updateType='"+updateType+"',updateTypeTime=now() where gpdm='"+gpdm+"'";
+					    	
 					    } else {
-					    	updateStmt.addBatch("update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',sssj="+sssj+" where gpdm='"+gpdm+"'");
+					    	sql = "update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',jtsyl="+jtsyl+" where gpdm='"+gpdm+"'";
 					    }
+					    updateStmt.addBatch(sql);
+					    log.info(index+"："+sql);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				logger.info("gpdm="+gpdm);
 			}
-			logger.info("saving......");
+			log.info("saving......");
 			updateStmt.executeBatch();
 			conn.commit();
-			logger.info("saving success!!!!");
+			log.info("saving success!!!!");
 			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -289,17 +292,6 @@ public class StockAction extends HttpServlet {
 			DBUtil.close(rs, stmt, conn);
 		}
 		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
-	}
-	
-	public static void main(String[]args) {
-		String xmlDoc = "<img src=\"fdsfs.jpg\"/>";
-		Pattern p = Pattern.compile("src=\"(.*?)\"/>");
-	    Matcher m = p.matcher(xmlDoc);
-	    String icbhy = null;
-	    if(m.find()) {
-	    	icbhy = m.group(1);
-	    }
-	    System.out.println(icbhy);
 	}
 	
 	/**
@@ -312,18 +304,24 @@ public class StockAction extends HttpServlet {
 		Connection conn = null;
 		Statement stmt = null;
 		String sql = null;
+		//股票价值权重
 		String gpjzqz = request.getParameter("gpjzqz");
+		//id主键值
 		String id = request.getParameter("id");
+		//备注
 		String remark = request.getParameter("remark");
+		//星级
+		String star = request.getParameter("star");
+		star = (null == star) ? "0":star;
 		boolean result = false;
 		if (null != gpjzqz && null != id) {
 			try {
 				conn = DBUtil.getConnection();
 				stmt = conn.createStatement();
 				if(null != remark && !"".equals(remark)) {
-					sql = "update tbl_gp set gpjzqz="+gpjzqz+",remark='"+remark+"',remarkTime=now() where id="+id;
+					sql = "update tbl_gp set gpjzqz="+gpjzqz+",star="+star+",remark='"+remark+"',remarkTime=now() where id="+id;
 				} else {
-					sql = "update tbl_gp set gpjzqz="+gpjzqz+" where id="+id;
+					sql = "update tbl_gp set gpjzqz="+gpjzqz+",star="+star+",remarkTime=now() where id="+id;
 				}
 				if(stmt.executeUpdate(sql) > 0) {
 					if(null != remark && !"".equals(remark)) {
@@ -374,7 +372,7 @@ public class StockAction extends HttpServlet {
 	}
 	
 	/**
-	 * 任务状态+备注修改
+	 * 备注修改
 	 * 
 	 * @param request
 	 * @param response
@@ -455,7 +453,7 @@ public class StockAction extends HttpServlet {
 			try {
 				conn = DBUtil.getConnection();
 				stmt = conn.createStatement();
-				sql = "update tbl_gp set remarkTime=now() where gpdm='"+gpdm+"'";
+				sql = "update tbl_gp set remark=null,remarkTime=now() where gpdm='"+gpdm+"'";
 				if(stmt.executeUpdate(sql) > 0) {
 					result = true;
 				}

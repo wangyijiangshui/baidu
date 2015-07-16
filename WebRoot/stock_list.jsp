@@ -11,6 +11,7 @@
     	 .gptable td{border-bottom:#333 1px dashed;}
     	 .remarkTime{font-size: 20px;font-weight: bold;}
     	 .gpTr:hover {background-color: #FFE45B;}
+    	 a{color:black;}
     </style>
   </head>
   
@@ -70,23 +71,35 @@
 	  		<tr>
 	  			<td width="1%"></td>
 	  			<td>
-	  					<table width="100%" class="gptable" border="0" cellpadding="0" cellspacing="0">
+	  					<table width="2000" class="gptable" border="0" cellpadding="0" cellspacing="0">
 					  		<thead>
 					  			<tr>
-					  				<th width="7%" align="left">A<!-- 序号 --></th>
-					  				<th width="7%" align="left">B<!-- 代码 --></th>
-					  				<th width="9%" align="left">C<!-- 名称 --></th>
+					  				<th width="6%" align="left">gsmc<!-- 名称 --></th>
 					  				
-					  				<th width="5%" align="left"><a target="_self" href="stock_list.jsp?orderby=gpjg&ascOrDesc=<%=ascOrDesc%>">D</a><!-- 价格 --></th>
-					  				<th width="6%" align="left"><a target="_self" href="stock_list.jsp?orderby=zde&ascOrDesc=<%=ascOrDesc%>">E</a><!-- 涨跌额 --></th>
-					  				<th width="9%" align="left"><a target="_self" href="stock_list.jsp?orderby=zdbl&ascOrDesc=<%=ascOrDesc%>">F</a><!-- 涨跌比率 --></th>
-					  				<th width="10%" align="left">G<!-- 分类 --></th>
+					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=gpjg&ascOrDesc=<%=ascOrDesc%>">gpjg</a><!-- 价格 --></th>
+					  				<!--  
+					  				<th width="3.5%" align="left"><a target="_self" href="stock_list.jsp?orderby=zde&ascOrDesc=<%=ascOrDesc%>">zde</a></th>
+					  				-->
+					  				<!-- 涨跌额 -->
+					  				<th width="4.5%" align="left"><a target="_self" href="stock_list.jsp?orderby=zdbl&ascOrDesc=<%=ascOrDesc%>">zdbl</a><!-- 涨跌比率 --></th>
+					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=huanShou&ascOrDesc=<%=ascOrDesc%>">huanSh</a><!-- 换手 --></th>
+					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=zhenFu&ascOrDesc=<%=ascOrDesc%>">zhenFu</a><!-- 振幅 --></th>
+					  				<th width="5%" align="left"><a target="_self" href="stock_list.jsp?orderby=liangBi&ascOrDesc=<%=ascOrDesc%>">liangBi</a><!-- 量比 --></th>
 					  				
-					  				<th width="15%" align="left"><a target="_self" href="stock_list.jsp?orderby=icbhy&ascOrDesc=<%=ascOrDesc%>">I</a><!-- ICB行业 --></th>
-					  				<th width="5%" align="left"><a target="_self" href="stock_list.jsp?orderby=ltag&ascOrDesc=<%=ascOrDesc%>">H</a><!-- 流通A股 --></th>
+					  				<th width="7%" align="left">gpjzqz<!-- 分类 --></th>
 					  				
-					  				<th align="left"><a target="_self" href="stock_list.jsp?orderby=remarkTime&ascOrDesc=<%=ascOrDesc%>">J</a><!-- 最后查看时间距离当前天数-备注 --></th>
-					  				<th width="4%" align="left">K</th>
+					  				<th width="6%" align="left"><a target="_self" href="stock_list.jsp?orderby=icbhy&ascOrDesc=<%=ascOrDesc%>">icbhy</a><!-- ICB行业 --></th>
+					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=ltag&ascOrDesc=<%=ascOrDesc%>">ltag</a><!-- 流通A股 --></th>
+					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=jtsyl&ascOrDesc=<%=ascOrDesc%>">jtsyl</a><!-- 静态市盈率 --></th>
+					  				<th width="7%" align="left"><a target="_self" href="stock_list.jsp?orderby=sssj&ascOrDesc=<%=ascOrDesc%>">sssj</a><!-- 上市时间 --></th>
+					  				
+					  				<th width="14%" align="left"><a target="_self" href="stock_list.jsp?orderby=remarkTime&ascOrDesc=<%=ascOrDesc%>">remarkTime</a><!-- 最后查看时间距离当前天数-备注 --></th>
+					  				<th width="10%" align="left">updateType</th><!-- 最后修改变更类型 -->
+					  				
+					  				<th width="4%" align="left">id<!-- 序号 --></th>
+					  				<th width="3%" align="left">gpdm<!-- 代码 --></th>
+					  				
+					  				<th align="left">&nbsp;</th>
 					  			</tr>
 					  		</thead>
 					  		<tbody>
@@ -99,10 +112,8 @@
 							try {
 								conn = DBUtil.getConnection();
 								stmt = conn.createStatement();
-								/*至此连接已完全建立，就可对当前数据库进行相应的操作了*/
-								/* 3. 接下来就可以使用其它标准mysql函数操作进行数据库操作*/
-								//创建一个数据库表   id 主键	gpdm 股票代码	gsmc 公司名称	gpjzqz 股票价值权重
-								sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,icbhy,ltag,remark,updateType,DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp order by gpjzqz desc," + orderby + " " + ascOrDesc;
+								sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,jtsyl,sssj,star,remark,updateType,"+
+									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp where (gpjzqz NOT IN (0,1,2,3) or star=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
 								rs = stmt.executeQuery(sql);
 								int i = 0;
 								int j = 0;
@@ -113,7 +124,7 @@
 										j = 0;
 						%>
 									<tr>
-						  				<td colspan="9" height="100px;">&nbsp;</td>
+						  				<td colspan="16" height="50px;">&nbsp;</td>
 						  			</tr>
 						<%	
 									}
@@ -121,30 +132,21 @@
 									zdbl = null == rs.getString("zdbl") ? "" : rs.getString("zdbl");
 						%>
 									<tr class="gpTr" id="tr<%=rs.getInt("id")%>">
-						  				<!-- 序号 -->
-						  				<td>
-						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("sina", rs.getString("gpdm")) %>">
-						  						<%=(++i)+"-"+(++j)%>
-						  					</a>
-						  				</td>
-						  				<!-- 代码 -->
-						  				<td>
-						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("hexun", rs.getString("gpdm").replace("sz","")) %>">
-						  						<%=rs.getString("gpdm")%>
-						  					</a>
-						  				</td>
 						  				<!-- 名称 -->
 						  				<td>
-						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("ths", rs.getString("gpdm").replace("sz","")) %>">
+						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("hexun", rs.getString("gpdm")) %>">
 						  						<%=rs.getString("gsmc")%>
+						  						<%=rs.getInt("star")>0 ? "<font color='green'>★</font>" : ""%>
 						  					</a>
 						  				</td>
 						  				
 						  				<!-- 价格 -->
 						  				<td class="hqxx" id="gpjg<%=rs.getString("gpdm")%>">
-						  					<%=null == rs.getString("gpjg") ? "" : rs.getString("gpjg")%>
+						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("sina", rs.getString("gpdm")) %>">
+						  						<%=null == rs.getString("gpjg") ? "" : rs.getString("gpjg")%>
+						  					</a>
 						  				</td>
-						  				<!-- 涨跌额 -->
+						  				<!-- 涨跌额 
 						  				<td class="hqxx" id="zde<%=rs.getString("gpdm")%>">
 						  					<%
 						  						if (-1 != zdbl.indexOf("-")) {
@@ -155,9 +157,10 @@
 						  							out.print("<font color=''>↑+"+(rs.getString("zde"))+"</font>");
 						  						}
 						  					%>
-						  				</td>
+						  				</td>-->
 						  				<!-- 涨跌比率 -->
 						  				<td class="hqxx" id="zdbl<%=rs.getString("gpdm")%>">
+						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("ths", rs.getString("gpdm")) %>">
 						  					<%
 						  						if (-1 != zdbl.indexOf("-")) {
 						  							out.print("<font color=''>↓"+(rs.getString("zdbl"))+"%</font>");
@@ -167,7 +170,22 @@
 						  							out.print("<font color='red'>↑+"+(rs.getString("zdbl"))+"%</font>");
 						  						}
 						  					%>
+						  					</a>
 						  				</td>
+						  				
+						  				<!-- 换手 -->
+						  				<td>
+						  					<%=null == rs.getString("huanShou") ? "" : rs.getString("huanShou")%>
+						  				</td>
+						  				<!-- 振幅 -->
+						  				<td>
+						  					<%=null == rs.getString("zhenFu") ? "" : rs.getString("zhenFu")%>
+						  				</td>
+						  				<!-- 量比 -->
+						  				<td>
+						  					<%=null == rs.getString("liangBi") ? "" : rs.getString("liangBi")%>
+						  				</td>
+					  				
 						  				<!-- 股票价值权重及类型 -->
 						  				<td style="cursor: pointer;" onclick="openQzChangeDialog('<%=rs.getInt("id")%>')">
 						  					<%=ConvertUtil.convertGpfl(rs.getInt("gpjzqz"))%>
@@ -180,6 +198,14 @@
 						  				<!-- 流通A股 -->
 						  				<td>
 						  					<%=null == rs.getString("ltag") ? "" : rs.getString("ltag")%>
+						  				</td>
+						  				<!-- 静态市盈率 -->
+						  				<td>
+						  					<%=null == rs.getString("jtsyl") ? "" : rs.getString("jtsyl")%>
+						  				</td>
+						  				<!-- 上市时间 -->
+						  				<td>
+						  					<%=null == rs.getString("sssj") ? "" : rs.getString("sssj")%>
 						  				</td>
 						  				
 						  				<!-- 备注 -->
@@ -195,16 +221,31 @@
 						  					%>
 						  					</span>
 						  					<!-- 股票备注 -->
-						  					<span id="remark<%=rs.getString("gpdm")%>" onclick="openRemarkWriteDialog('<%=rs.getString("gpdm")%>')">
+						  					<span id="remark<%=rs.getString("gpdm")%>" onclick="openRemarkWriteDialog('<%=rs.getString("gpdm")%>')" title="<%=rs.getString("remark")%>">
 						  					<%
-						  						out.print(CommonUtil.subString(rs.getString("remark"), 12));
+						  						out.print(CommonUtil.subString(rs.getString("remark"), 14));
 						  					%>
 						  					</span>
 						  				</td>
 						  				<!-- 最近更新内容描述 -->
-						  				<td style="text-align: right;cursor: pointer;" class="read_news_td" nodeId="<%=rs.getInt("id")%>">
+						  				<td style="cursor: pointer;" class="read_news_td" nodeId="<%=rs.getInt("id")%>">
 						  					<%=null != rs.getObject("updateType") ? rs.getString("updateType"):""%>
 						  				</td>
+						  				
+						  				<!-- 序号 -->
+						  				<td>
+						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("sina", rs.getString("gpdm")) %>">
+						  						<%=(++i)+"-"+(++j)%>
+						  					</a>
+						  				</td>
+						  				<!-- 代码 -->
+						  				<td>
+						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("ths", rs.getString("gpdm")) %>">
+						  						<%=rs.getString("gpdm")%>
+						  					</a>
+						  				</td>
+						  				
+						  				<td>&nbsp;</td>
 						  			</tr>
 						<%
 								}
@@ -252,6 +293,12 @@
   				<td>备注</td>
   				<td>
   					<textarea id="remark1" rows="10" style="width: 510px;"></textarea>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td>星级</td>
+  				<td>
+  					<input type="text" id="star" style="width: 510px;" value="0"/>
   				</td>
   			</tr>
   		</table>

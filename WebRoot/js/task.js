@@ -85,6 +85,20 @@
 	$(".sequence").bind('dblclick', function(){
 		deleteTask($(this).attr("taskId"));
 	});
+	
+	//主题修改对话框   
+	$("#taskTimeDialog").dialog({
+		autoOpen: false,
+		height: 650,
+		width: 1100,
+		title:'Task Time',
+		modal:true
+	});
+	
+	//打开主题修改对话框
+	$("#task_time_button").bind('click', function(){
+		$( "#taskTimeDialog").dialog( "open" );
+	});
 })
 
 /**
@@ -142,7 +156,7 @@ function submitStatusChange() {
 }
 
 /**
- * 提交任务状态+备注修改数据
+ * 删除
  */
 function deleteTask(id) {
 	if(!window.confirm('Are you sure to delete this note ？')){

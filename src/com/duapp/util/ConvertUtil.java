@@ -36,7 +36,15 @@ public class ConvertUtil {
 		} else if (9 == gpjzqz) {
 			return "9-业好趋极好";
 		} else if (10 == gpjzqz) {
-			return "10-买入";
+			return "10-small";
+		} else if (11 == gpjzqz) {
+			return "11-middle";
+		} else if (12 == gpjzqz) {
+			return "12-bigger";
+		} else if (13 == gpjzqz) {
+			return "13-买入";
+		} else if (14 == gpjzqz) {
+			return "14-卖出";
 		} else {
 			return "未知";
 		}

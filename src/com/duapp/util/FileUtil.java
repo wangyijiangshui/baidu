@@ -2,8 +2,15 @@ package com.duapp.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.servlet.http.HttpServletResponse;
 
 public class FileUtil {
 
@@ -93,4 +100,32 @@ public class FileUtil {
 		}
 		return result;
 	}
+	
+	public static void main(String[] args) {
+		FileUtil.downloadNet("http://stock.gtimg.cn/data/index.php?appn=detail&action=download&c=sz000858&d=20150514", "000858_20150514(五 粮 液).xls");
+	}
+	
+	public static void downloadNet(String fileUrl, String newFileName){
+        // 下载网络文件
+        int bytesum = 0;
+        int byteread = 0;
+
+        try {
+        	URL url = new URL(fileUrl);
+            URLConnection conn = url.openConnection();
+            InputStream inStream = conn.getInputStream();
+            FileOutputStream fs = new FileOutputStream("F:/2015/"+newFileName);
+
+            byte[] buffer = new byte[1024];
+            while ((byteread = inStream.read(buffer)) != -1) {
+                bytesum += byteread;
+                System.out.println(bytesum);
+                fs.write(buffer, 0, byteread);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

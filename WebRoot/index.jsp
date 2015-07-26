@@ -1,5 +1,5 @@
 <%@ page language="java" import="com.duapp.util.*,java.sql.*" pageEncoding="utf-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
   <head>
     <title>index</title>
@@ -173,20 +173,13 @@
 				<div class="menuDiv" style="margin-top: 1px;">
 					<table border="0" width="100%">
 						<tr>
-							<td >
-								<ul id="menu" style="width: 80px;height: 45px; margin: 0 0 0 0">
-								  <li>
-								    <a href="#"><img id="menu" border="0" src="image/child.jpg" style="width: 48px;height: 44px;"/></a>
-								    <ul>
-								      <li><a href="index.jsp">Index Page</a></li>
-								      <li><a href="stock_list.jsp">Stock Detail Infomation</a></li>
-								      <li><a href="task_list.jsp">My Task</a></li>
-								      <li><a href="contacts_list.jsp">My Contacts</a></li>
-								    </ul>
-								  </li>
-								</ul>
+							<td width="33%">
+								<jsp:include page="menu.jsp"></jsp:include>
 							</td>
-							<td align="right">
+							<td style="text-aligin:center;">
+								你以为我在和你开玩笑呢！！
+							</td>
+							<td align="right" width="33%">
 								<button id="ui_theme_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 									<span class="ui-button-text">UI Theme</span>
 								</button>
@@ -203,12 +196,12 @@
 		
 	
   	<div id="mainDiv" style="overflow: auto;height: 100;width: 100;">
-  			<div id="indexContent" style="margin-top: 20px;display: none;">
+  			<div id="indexContent" style="margin-top: 5px;display: none;">
 		  		<table>
 		  			<tr>
 		  				<th width="2%"></th>
 		  				<th align="left">
-		  					<div class="ui-widget" style="margin-top: 1px;font-size: 50px;margin-bottom: 40px;text-align: center;">
+		  					<div class="ui-widget" style="margin-top: 1px;font-size: 40px;margin-bottom: 10px;text-align: center;">
 								服从命令、快速执行、一切从简、一次成功
 							</div>
 							
@@ -227,7 +220,7 @@
 							<div class="ui-widget" style="margin-top: 10px;">
 								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
 									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>人生最大的悲哀不是失去太多，而是计较太多</p>
+									<strong>呵呵：</strong>人生最大的悲哀不是失去太多，而是计较太多；君子上善若水，水善利万物而不争</p>
 								</div>
 							</div>
 							<div class="ui-widget" style="margin-top: 10px;">
@@ -260,7 +253,7 @@
 									<strong>呵呵：</strong>快乐人生的十个要点==>>1、脾气小一点。2、心情好一点。3、嘴巴甜一点。4、脑袋活一点。5、行动快一点。6、效率高一点。7、胆子大一点。8、理由少一点。9、运动多一点。10、身体好一点</p>
 								</div>
 							</div>
-							<div id="myLiveCountdown" class="ui-widget" style="margin-top: 30px;text-align: center;font-size: 60px;color: red;">
+							<div id="myLiveCountdown" class="ui-widget" style="margin-top: 20px;text-align: center;font-size: 60px;color: red;">
 								
 							</div>
 		  				</th>

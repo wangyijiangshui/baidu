@@ -1,5 +1,5 @@
 <%@ page language="java" import="com.duapp.util.*,java.sql.*" pageEncoding="utf-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
   <head>
     <title>stock</title>
@@ -23,17 +23,7 @@
 				<table border="0" width="100%">
 					<tr>
 						<td >
-							<ul id="menu" style="width: 80px;height: 45px; margin: 0 0 0 0">
-							  <li>
-							    <a href="#"><img id="menu" border="0" src="image/child.jpg" style="width: 48px;height: 44px;"/></a>
-							    <ul>
-							      <li><a href="index.jsp">Index Page</a></li>
-							      <li><a href="stock_list.jsp">Stock Detail Infomation</a></li>
-							      <li><a href="task_list.jsp">My Task</a></li>
-							      <li><a href="contacts_list.jsp">My Contacts</a></li>
-							    </ul>
-							  </li>
-							</ul>
+							<jsp:include page="menu.jsp"></jsp:include>
 						</td>
 						<td align="right">
 							<button id="refresh_page_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
@@ -53,6 +43,13 @@
 	</div>
 	
 	<%
+		//查询条件
+		String where = request.getParameter("where");
+		if(null == where || "".equals(where)) {
+			where = "where";
+		} else {
+			where = "where " + where + " and ";
+		}
 		//排序字段
 		String orderby = request.getParameter("orderby");
 		String ascOrDesc = request.getParameter("ascOrDesc");
@@ -113,7 +110,7 @@
 								conn = DBUtil.getConnection();
 								stmt = conn.createStatement();
 								sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,jtsyl,sssj,star,remark,updateType,"+
-									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp where (gpjzqz NOT IN (0,1,2,3) or star=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
+									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp "+where+" (gpjzqz NOT IN (0,1,2,3) or star=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
 								rs = stmt.executeQuery(sql);
 								int i = 0;
 								int j = 0;
@@ -285,7 +282,13 @@
   						<option value="8">8—业绩好趋势好</option>
   						<option value="9">9—业绩好趋势极好</option>
   						
-  						<option value="10">10—买入</option>
+  						<option value="10">10—small</option>
+  						<option value="11">11—middle</option>
+  						<option value="12">12—bigger</option>
+  						
+  						<option value="13">13—买入</option>
+  						
+  						<option value="14">14—卖出</option>
   					</select>
   				</td>
   			</tr>

@@ -1,5 +1,5 @@
 <%@ page language="java" import="com.duapp.util.*,java.sql.*" pageEncoding="utf-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
   <head>
     <title>spider</title>
@@ -24,21 +24,14 @@
 				<table border="0" width="100%">
 					<tr>
 						<td >
-							<ul id="menu" style="width: 80px;height: 45px; margin: 0 0 0 0">
-							  <li>
-							    <a href="#"><img id="menu" border="0" src="image/child.jpg" style="width: 48px;height: 44px;"/></a>
-							    <ul>
-							      <li><a href="index.jsp">Index Page</a></li>
-							      <li><a href="stock_list.jsp">Stock Detail Infomation</a></li>
-							      <li><a href="task_list.jsp">My Task</a></li>
-							      <li><a href="contacts_list.jsp">My Contacts</a></li>
-							    </ul>
-							  </li>
-							</ul>
+							<jsp:include page="menu.jsp"></jsp:include>
 						</td>
 						<td align="right">
 							<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
 								<span class="ui-button-text">Add Task</span>
+							</button>
+							<button id="task_time_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+								<span class="ui-button-text">Task Time</span>
 							</button>
 						</td>
 					</tr>
@@ -289,6 +282,10 @@
   	
   	<div id="processDialog" style="display: none;">
   		处理中，请稍后....
+  	</div>
+  	
+  	<div id="taskTimeDialog">
+  		<iframe  frameborder="0" height="550px" width="1000px" src="task_time.jsp"></iframe>
   	</div>
   </body>
 </html>

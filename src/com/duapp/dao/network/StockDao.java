@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import com.duapp.util.CommonUtil;
 
 /**
- * 
+ * 抓取股票的一些基本信息
  * 
  * 
  * @author Administrator
@@ -88,10 +88,5 @@ public class StockDao {
 			e.printStackTrace();
 		}
 		return sssj;
-	}
-	
-	public static void main(String[]args){
-		String a = StockDao.getStockSssj("002142");
-		String b = "";
 	}
 }

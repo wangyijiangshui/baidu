@@ -70,6 +70,8 @@ public class DayKlineDataDao {
 				Thread.sleep((1 * 1000));
 			} catch (Exception ex) {
 				ex.printStackTrace();
+			} finally {
+				DBUtil.close(null, conn);
 			}
 		}
 	}
@@ -100,7 +102,7 @@ public class DayKlineDataDao {
 		return gpKlinePojos;
 	}
 	
-	private static Connection conn = DBUtil.getConnection();
+	private Connection conn = DBUtil.getConnection();
 	public boolean saveKlineData(List<GpKlinePojo> gpKlinePojos) {
 		boolean result  = false;
 		int gpdmInt = 0;
@@ -164,8 +166,8 @@ public class DayKlineDataDao {
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				GpInfo gpInfo = new GpInfo();
-				gpInfo.setGpdm(rs.getString("gpdm").replace("sz", ""));
-				gpInfo.setSssj(rs.getInt("sssj")/10000);
+				gpInfo.setGpdm(rs.getString("gpdm"));
+				gpInfo.setSssj(rs.getInt("sssj")/10000);//计算出上市时间的年份yyyy
 				gpInfos.add(gpInfo);
 			}
 		} catch (Exception e) {

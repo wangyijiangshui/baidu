@@ -27,10 +27,10 @@
 							<jsp:include page="menu.jsp"></jsp:include>
 						</td>
 						<td align="right">
-							<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Add Task</span>
 							</button>
-							<button id="task_time_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							<button id="task_time_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Task Time</span>
 							</button>
 						</td>
@@ -54,7 +54,7 @@
 		}
 	%>
 
-  	<div id="mainDiv" style="overflow: auto;height: 100;width: 100;">
+  	<div style="overflow: auto;width: 100%;">
 	  	<table width="100%">
 	  		<tr>
 	  			<td width="1%"></td>
@@ -147,7 +147,7 @@
 						  					<%		
 						  						} else {
 						  					%>
-							  					<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							  					<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;">
 													<span taskId="<%=rs.getInt("id")%>" class="taskStatus ui-button-text"><%=ConvertUtil.convertTaskStatus(rs.getInt("taskStatus"))%></span>
 												</button>
 						  					<%	
@@ -255,7 +255,8 @@
   				<td width="15%">状态</td>
   				<td>
   					<select style="width: 510px;" name="taskStatus">
-  						<option value="2">进行中</option>
+  						<option value="1">没开始</option>
+  						<option value="2" selected="selected">进行中</option>
   						<option value="3">完成</option>
   						<option value="4">取消</option>
   						<option value="5">失败</option>
@@ -284,7 +285,7 @@
   		处理中，请稍后....
   	</div>
   	
-  	<div id="taskTimeDialog">
+  	<div id="taskTimeDialog" style="display: none;">
   		<iframe  frameborder="0" height="550px" width="1000px" src="task_time.jsp"></iframe>
   	</div>
   </body>

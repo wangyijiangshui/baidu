@@ -28,7 +28,7 @@
 							<jsp:include page="menu.jsp"></jsp:include>
 						</td>
 						<td align="right">
-							<button id="add_contacts_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							<button id="add_contacts_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Add Contactor</span>
 							</button>
 						</td>
@@ -70,7 +70,7 @@
 		}
 	%>
 
-  	<div id="mainDiv" style="overflow: auto;height: 100;width: 100;">
+  	<div style="overflow: auto;width: 100%;">
 	  	<table width="100%">
 	  		<tr>
 	  			<td width="1%"></td>

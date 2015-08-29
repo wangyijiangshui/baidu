@@ -6,11 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-
-import javax.servlet.http.HttpServletResponse;
 
 public class FileUtil {
 
@@ -72,10 +69,24 @@ public class FileUtil {
 	public static boolean delFile(String filePathAndName) {
 		boolean result = false;
 		try {
-			String filePath = filePathAndName;
-			filePath = filePath.toString();
-			java.io.File myDelFile = new java.io.File(filePath);
+			File myDelFile = new File(filePathAndName);
 			result = myDelFile.delete();
+		} catch (Exception e) {
+			System.out.println("删除文件操作出错");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 删除文件
+	 * 
+	 * @param filePathAndName
+	 */
+	public static boolean delFile(File file) {
+		boolean result = false;
+		try {
+			result = file.delete();
 		} catch (Exception e) {
 			System.out.println("删除文件操作出错");
 			e.printStackTrace();
@@ -101,31 +112,52 @@ public class FileUtil {
 		return result;
 	}
 	
-	public static void main(String[] args) {
-		FileUtil.downloadNet("http://stock.gtimg.cn/data/index.php?appn=detail&action=download&c=sz000858&d=20150514", "000858_20150514(五 粮 液).xls");
-	}
-	
-	public static void downloadNet(String fileUrl, String newFileName){
+	/**
+	 * 从网络下载文件
+	 * 
+	 * @param fileUrl
+	 * @param newFile
+	 * @param minSize
+	 * @return
+	 */
+	public static boolean downloadNet(String fileUrl, File newFile, int minSize){
+		boolean result = false;
         // 下载网络文件
         int bytesum = 0;
         int byteread = 0;
 
+        URLConnection conn = null;
+        InputStream inStream = null;
+        FileOutputStream fs = null;
+        
         try {
         	URL url = new URL(fileUrl);
-            URLConnection conn = url.openConnection();
-            InputStream inStream = conn.getInputStream();
-            FileOutputStream fs = new FileOutputStream("F:/2015/"+newFileName);
+            conn = url.openConnection();
+            inStream = conn.getInputStream();
+            fs = new FileOutputStream(newFile);
 
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[256];
             while ((byteread = inStream.read(buffer)) != -1) {
-                bytesum += byteread;
-                System.out.println(bytesum);
+                bytesum = bytesum + byteread;
                 fs.write(buffer, 0, byteread);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+        	try {
+        		fs.close();
+            	inStream.close();
+        	} catch (Exception ex) {
+        		ex.printStackTrace();
+        	}
         }
+        if(bytesum > minSize) {
+        	result = true;
+        } else {
+        	FileUtil.delFile(newFile);
+        }
+        return result;
     }
 }

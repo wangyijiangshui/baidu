@@ -1,8 +1,4 @@
 $(function(){
-	var width = $(document).width()-20;
-   	var heigth = $(document).height()-80;
-   	$("#mainDiv").css("width", width);
-   	$("#mainDiv").css("height", heigth);
 	$( "#menu" ).menu();
 	
 	//操作进度提示框

@@ -26,13 +26,13 @@
 							<jsp:include page="menu.jsp"></jsp:include>
 						</td>
 						<td align="right">
-							<button id="refresh_page_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							<button id="refresh_page_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Refresh Page</span>
 							</button>
-							<button id="refresh_db_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							<button id="refresh_db_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Refresh Database</span>
 							</button>
-							<button id="refresh_base_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+							<button id="refresh_base_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Refresh Base Info</span>
 							</button>
 						</td>
@@ -63,7 +63,7 @@
 		}
 	%>
 
-  	<div id="mainDiv" style="overflow: auto;height: 100;width: 100;">
+  	<div style="overflow: auto;width: 100%">
 	  	<table width="100%">
 	  		<tr>
 	  			<td width="1%"></td>
@@ -172,7 +172,9 @@
 						  				
 						  				<!-- 换手 -->
 						  				<td>
+						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("qq", rs.getString("gpdm")) %>">
 						  					<%=null == rs.getString("huanShou") ? "" : rs.getString("huanShou")%>
+						  					</a>
 						  				</td>
 						  				<!-- 振幅 -->
 						  				<td>
@@ -308,7 +310,7 @@
   	</div>
   	
   	<!-- 备注填写对话框   -->
-  	<div id="remarkWriteDialog">
+  	<div id="remarkWriteDialog" style="display: none;">
   		<table width="100%" class="ui-widget-content">
   			<tr>
   				<td width="10%">备注</td>
@@ -320,7 +322,7 @@
   	</div>
   	
   	<!-- 历史备注详细查看对话框   -->
-  	<div id="remarkViewDialog">
+  	<div id="remarkViewDialog" style="display: none;">
   		<table width="100%" class="gptable ui-widget-content" id="remarkViewTable" style="word-break: break-all;word-wrap: break-word;overflow: auto;">
   			
   		</table>

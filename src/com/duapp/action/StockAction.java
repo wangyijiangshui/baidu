@@ -421,7 +421,7 @@ public class StockAction extends HttpServlet {
 		try {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
-			sql = "SELECT remark,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime  FROM `tbl_gp_remark` where gpdm='"+gpdm+"' order by createTime desc";
+			sql = "SELECT remark,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime  FROM `tbl_gp_remark` where gpdm='"+gpdm+"' order by id desc";
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				remark = new StockRemark();

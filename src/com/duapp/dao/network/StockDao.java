@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import com.duapp.util.CommonUtil;
 
 /**
- * 抓取股票的一些基本信息
+ * 抓取股票的一些基本信息:市盈率、上世时间
  * 
  * 
  * @author Administrator

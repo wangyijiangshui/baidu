@@ -180,10 +180,10 @@
 								你以为我在和你开玩笑呢！！
 							</td>
 							<td align="right" width="33%">
-								<button id="ui_theme_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+								<button id="ui_theme_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 									<span class="ui-button-text">UI Theme</span>
 								</button>
-								<button id="exit_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+								<button id="exit_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 									<span class="ui-button-text">Exit</span>
 								</button>
 							</td>
@@ -201,8 +201,9 @@
 		  			<tr>
 		  				<th width="2%"></th>
 		  				<th align="left">
-		  					<div class="ui-widget" style="margin-top: 1px;font-size: 40px;margin-bottom: 10px;text-align: center;">
-								服从命令、快速执行、一切从简、一次成功
+		  					<div class="ui-widget" style="margin-top: 1px;font-size: 20px;margin-bottom: 10px;text-align: center;">
+								服从命令、快速执行、一切从简、一次成功<br/>
+								敢想、敢拼、敢做、敢梦
 							</div>
 							
 			  				<div class="ui-widget" style="margin-top: 10px;">

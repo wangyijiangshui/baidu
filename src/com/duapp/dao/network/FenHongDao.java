@@ -74,7 +74,7 @@ public class FenHongDao {
 	 * 
 	 * @return
 	 */
-	public boolean clearTable() {
+	private boolean clearTable() {
 		System.out.println("Clear table .....");
 		boolean result = false;
 		String sql = "delete from tbl_gp_fenhong";
@@ -96,8 +96,7 @@ public class FenHongDao {
 	 * 
 	 */
 	private Connection conn = DBUtil.getConnection();
-
-	public boolean saveKlineData(String gpdm, int year, float fenhong,
+	private boolean saveKlineData(String gpdm, int year, float fenhong,
 			String fenHoneContent) {
 		boolean result = false;
 		PreparedStatement pstmt = null;
@@ -125,7 +124,7 @@ public class FenHongDao {
 	 * 
 	 * @return
 	 */
-	public boolean updateFenhong100() {
+	private boolean updateFenhong100() {
 		System.out.println("updateFenhong100......");
 		boolean result = false;
 		String sql = "UPDATE tbl_gp_fenhong INNER JOIN tbl_gp ON tbl_gp_fenhong.gpdm=tbl_gp.gpdm SET fenHong100=(fenHong*100)/gpjg";
@@ -147,7 +146,7 @@ public class FenHongDao {
 	 * 
 	 * @return
 	 */
-	public List<String> getAllGpdm() {
+	private List<String> getAllGpdm() {
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql = null;

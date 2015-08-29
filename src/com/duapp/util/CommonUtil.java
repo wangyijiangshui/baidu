@@ -73,6 +73,9 @@ public class CommonUtil {
 				gpdm = "sh"+gpdm;
 			}
 			return "http://finance.sina.com.cn/realstock/company/"+gpdm+"/nc.shtml";
+		//腾讯
+		} else if ("qq".equals(website)) {
+			return "http://gu.qq.com/sstock/quotpage/q/"+gpdm+".htm#detail";
 		} else {
 			return "#";
 		}

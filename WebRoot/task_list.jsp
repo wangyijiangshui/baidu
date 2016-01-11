@@ -33,6 +33,9 @@
 							<button id="task_time_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Task Time</span>
 							</button>
+							<button id="task_goal_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
+								<span class="ui-button-text">Task Goal</span>
+							</button>
 						</td>
 					</tr>
 				</table>
@@ -287,6 +290,10 @@
   	
   	<div id="taskTimeDialog" style="display: none;">
   		<iframe  frameborder="0" height="550px" width="1000px" src="task_time.jsp"></iframe>
+  	</div>
+  	
+  	<div id="taskGoalDialog" style="display: none;">
+  		<iframe  frameborder="0" height="550px" width="1050px" src="task_goal.jsp"></iframe>
   	</div>
   </body>
 </html>

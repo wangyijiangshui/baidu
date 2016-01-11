@@ -245,7 +245,7 @@ public class TaskAction extends HttpServlet {
 		try {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
-			sql = "SELECT remark,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime  FROM `tbl_task_remark` WHERE taskId="+id+" ORDER BY createTime DESC";
+			sql = "SELECT remark,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime  FROM `tbl_task_remark` WHERE taskId="+id+" ORDER BY id DESC";
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				remark = new StockRemark();

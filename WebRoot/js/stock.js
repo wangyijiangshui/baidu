@@ -151,7 +151,7 @@ function refreshPageButton() {
 				if (v.zdbl > 0) {
 					$("#gpjg"+v.gpdm).html(v.gpjg);
 					$("#zde"+v.gpdm).html('<font color="">↑+'+v.zde+'</font>');
-					$("#zdbl"+v.gpdm).html('<font color="red">↑+'+v.zdbl+'%</font>');
+					$("#zdbl"+v.gpdm).html('<font color="">↑+'+v.zdbl+'%</font>');
 				} else if (v.zdbl < 0) {
 					$("#gpjg"+v.gpdm).html(v.gpjg);
 					$("#zde"+v.gpdm).html('<font color="">↓'+v.zde+'</font>');

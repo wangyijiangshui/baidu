@@ -26,6 +26,9 @@
 							<jsp:include page="menu.jsp"></jsp:include>
 						</td>
 						<td align="right">
+							<span style="font-size:25px;">
+								32018.15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span>
 							<button id="refresh_page_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Refresh Page</span>
 							</button>
@@ -110,7 +113,7 @@
 								conn = DBUtil.getConnection();
 								stmt = conn.createStatement();
 								sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,jtsyl,sssj,star,remark,updateType,"+
-									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp "+where+" (gpjzqz NOT IN (0,1,2,3) or star=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
+									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp "+where+" (gpjzqz NOT IN (0,1) or star=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
 								rs = stmt.executeQuery(sql);
 								int i = 0;
 								int j = 0;
@@ -164,7 +167,7 @@
 						  						} else if (-1 != zdbl.indexOf("0.00") && -1 == zdbl.indexOf("1")) {
 						  							out.print(rs.getString("zdbl")+"%");
 						  						} else if(!"".equals(zdbl)){
-						  							out.print("<font color='red'>↑+"+(rs.getString("zdbl"))+"%</font>");
+						  							out.print("<font color=''>↑+"+(rs.getString("zdbl"))+"%</font>");
 						  						}
 						  					%>
 						  					</a>

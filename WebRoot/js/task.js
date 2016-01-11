@@ -86,7 +86,7 @@
 		deleteTask($(this).attr("taskId"));
 	});
 	
-	//主题修改对话框   
+	//“任务时间安排”话框   
 	$("#taskTimeDialog").dialog({
 		autoOpen: false,
 		height: 650,
@@ -95,9 +95,23 @@
 		modal:true
 	});
 	
-	//打开主题修改对话框
+	//打开“任务时间安排”对话框
 	$("#task_time_button").bind('click', function(){
 		$( "#taskTimeDialog").dialog( "open" );
+	});
+	
+	//“人生目标”话框   
+	$("#taskGoalDialog").dialog({
+		autoOpen: false,
+		height: 650,
+		width: 1100,
+		title:'Task Goal',
+		modal:true
+	});
+	
+	//打开“人生目标”对话框
+	$("#task_goal_button").bind('click', function(){
+		$( "#taskGoalDialog").dialog( "open" );
 	});
 })
 

@@ -195,6 +195,10 @@ function checkChange(contactor) {
 									+ " ==>> " 
 									+ $("#addOrEditForm [name='"+v+"']").find("option[value='"+contactor[v]+"']").text()
 								+"</div>";
+		} else if ("remark" == v) {
+			changes = changes + "<div>" + $("#addOrEditForm [name='"+v+"']").attr("title") + "：" 
+									+ contactor[v]
+								+"</div>";
 		} else {
 			changes = changes + "<div>" + $("#addOrEditForm [name='"+v+"']").attr("title") + "：" 
 									+ editHistoryData[v]

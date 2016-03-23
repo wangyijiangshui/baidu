@@ -57,7 +57,7 @@
             <tr>
                 <td rowspan="2">赚钱(<span class="taskTime">220</span>)</td>
                 <td>工作</td>
-                <td>&nbsp;</td>
+                <td>为绩效、为升职、为跳槽而工作——为加薪</td>
             </tr>
             <tr>
                 <td>理财</td>
@@ -70,11 +70,11 @@
             </tr>
             <tr>
                 <td>沟通(歌)</td>
-                <td>&nbsp;</td>
+                <td>为工作、为生活</td>
             </tr>
             <tr>
                 <td>技术</td>
-                <td>&nbsp;</td>
+                <td>为升职、为跳槽而学习——为涨薪</td>
             </tr>
             <tr>
                 <td>理财</td>
@@ -82,7 +82,7 @@
             </tr>
             <tr>
                 <td>处世</td>
-                <td>&nbsp;</td>
+                <td>为升职、为借钱、求帮忙</td>
             </tr>
             <tr>
                 <td>管理</td>

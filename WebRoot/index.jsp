@@ -239,7 +239,7 @@
 							<div class="ui-widget" style="margin-top: 10px;">
 								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
 									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>宁愿为自己做过的后悔，也不愿为自己没做的遗憾</p>
+									<strong>呵呵：</strong>宁愿为自己做过的后悔，也不愿为自己没做的遗憾；很多事情现在不做，可能永远都不会做</p>
 								</div>
 							</div>
 							<div class="ui-widget" style="margin-top: 10px;">

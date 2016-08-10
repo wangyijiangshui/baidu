@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -47,16 +49,10 @@ public class FenHongDao {
 				for(Element ele : elements) {
 					String fenHongContent = ele.text();
 					if(null != fenHongContent && fenHongContent.contains("扣税后")) {
-						int year = CommonUtil.StringToInt(fenHongContent.substring(0, 4));
-						if(year <= 0) {
-							year = CommonUtil.StringToInt("20"+fenHongContent.substring(0, 2));
-						}
-						float fenHong = 0;
-						int index = fenHongContent.indexOf("扣税后10派");
-						if(index >= 0) {
-							fenHong = CommonUtil.StringToFloat(fenHongContent.substring(index).replace("元)", "").replace("扣税后10派", ""));
-						}
-						System.out.println("fenHongContent="+fenHongContent+",year="+year+",fenHong="+fenHong);
+						System.out.println("fenHongContent="+fenHongContent);
+						int year = CommonUtil.StringToInt(this.getYearFromStr(fenHongContent));
+						float fenHong = CommonUtil.StringToFloat(this.getFenHongFromStr(fenHongContent));
+						System.out.println("year="+year+",fenHong="+fenHong);
 						this.saveKlineData(gpdm, year, fenHong, fenHongContent);
 					}
 				}
@@ -167,4 +163,22 @@ public class FenHongDao {
 		gpdms.add("600519");
 		return gpdms;
 	}
+	
+	private String getYearFromStr(String str) {
+		Pattern pattern = Pattern.compile("^(\\d+)(.*)");
+		Matcher matcher = pattern.matcher(str);
+		if (matcher.matches()) {
+			return matcher.group(1);
+		}
+		return "0";
+	}
+	
+	private String getFenHongFromStr(String str) {
+        Pattern pattern = Pattern.compile(".*扣税后10派(.*)元\\).*");
+        Matcher matcher = pattern.matcher(str);
+        if (matcher.matches()) {
+            return matcher.group(1);
+        }
+        return "0";
+    }
 }

@@ -57,11 +57,11 @@
             <tr>
                 <td rowspan="2">赚钱(<span class="taskTime">220</span>)</td>
                 <td>工作</td>
-                <td>为绩效、为升职、为跳槽而工作——为加薪</td>
+                <td>为绩效、为升职、为跳槽而工作——加薪导向</td>
             </tr>
             <tr>
                 <td>理财</td>
-                <td>&nbsp;</td>
+                <td>保值为主</td>
             </tr>
             <tr>
                 <td rowspan="6">学习(<span class="taskTime">40</span>)</td>
@@ -74,19 +74,19 @@
             </tr>
             <tr>
                 <td>技术</td>
-                <td>为升职、为跳槽而学习——为涨薪</td>
+                <td>为升职、为跳槽而学习——涨薪导向</td>
             </tr>
             <tr>
                 <td>理财</td>
-                <td>&nbsp;</td>
+                <td>保值为前提，追求增值</td>
             </tr>
             <tr>
                 <td>处世</td>
-                <td>为升职、为借钱、求帮忙</td>
+                <td>为升职、为借钱、求帮忙——遇难求助导向</td>
             </tr>
             <tr>
                 <td>管理</td>
-                <td>&nbsp;</td>
+                <td>为发展、为转型——转型导向</td>
             </tr>
         </table>
     </body>

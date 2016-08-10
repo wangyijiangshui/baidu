@@ -61,7 +61,7 @@ public class CommonUtil {
 	public static String getGpUrl(String website, String gpdm) {
 		//如果采用和讯网
 		if("hexun".equals(website)) {
-			return "http://stockdata.stock.hexun.com/gghq_"+gpdm+".shtml";
+			return "http://stockdata.stock.hexun.com/"+gpdm+".shtml";
 		//同花顺
 		} else if ("ths".equals(website)) {
 			return "http://stockpage.10jqka.com.cn/"+gpdm+"/";

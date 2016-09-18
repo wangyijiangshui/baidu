@@ -209,6 +209,13 @@
 							<div class="ui-widget" style="margin-top: 10px;">
 								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
 									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+									<strong>呵呵：</strong>万不得已不撒谎，记住朋友姓名，记住亲人手机生日。</p>
+								</div>
+							</div>
+							
+							<div class="ui-widget" style="margin-top: 10px;">
+								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
 									<strong>双重身份：</strong>“执行我” 听命于 “计划我”！每周“计划我”上班一次，制定或取消短长期各种任务。</p>
 								</div>
 							</div>

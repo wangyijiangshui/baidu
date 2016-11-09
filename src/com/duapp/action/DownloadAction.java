@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DownloadAction extends HttpServlet {
 
-	private static String filePath = "D:/Tomcat/apache-tomcat-6.0.43/concat-photo";
+	private static String filePath = "D:/Tomcat7.0-32/apache-tomcat-7.0.72/concat-photo";
 	
 	/**
 	 * The doGet method of the servlet. <br>

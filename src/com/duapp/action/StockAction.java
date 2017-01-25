@@ -230,6 +230,8 @@ public class StockAction extends HttpServlet {
 				String icbhy="";
 				//流通A股(亿)
 				String ltag="0";
+				//每股收益(元)
+				String mgsy = "0";
 				//市盈率
 				float jtsyl = 0;
 				String updateType = "";
@@ -257,6 +259,19 @@ public class StockAction extends HttpServlet {
 					    if (null == ltag || "".equals(ltag)) {
 					    	ltag = "0";
 					    }
+					    
+					    //每股收益 <td width='70' class='tb2_new'>0.73</td>
+					    p = Pattern.compile("<td width='70' class='tb2_new'>(.*?)</td>");
+					    m = p.matcher(xmlDoc);
+					    if(m.find()) {
+					    	mgsy = m.group(1);
+					    }
+					    if (null == mgsy || "".equals(mgsy) || CommonUtil.StringToFloat(mgsy) <= 0) {
+					    	mgsy = "0";
+					    }
+					    
+					    
+					    
 					    //市盈率
 					    jtsyl = StockDao.getStockJtsylFromHexun(gpdm);
 					    //如果本次更新的内容与数据库中保存的不一致，则记录本次新的内容
@@ -268,10 +283,10 @@ public class StockAction extends HttpServlet {
 					    }
 					    
 					    if (null != updateType && !"".equals(updateType)) {
-					    	sql = "update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',jtsyl="+jtsyl+",updateType='"+updateType+"',updateTypeTime=now() where gpdm='"+gpdm+"'";
+					    	sql = "update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',mgsy='"+mgsy+"',jtsyl="+jtsyl+",updateType='"+updateType+"',updateTypeTime=now() where gpdm='"+gpdm+"'";
 					    	
 					    } else {
-					    	sql = "update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',jtsyl="+jtsyl+" where gpdm='"+gpdm+"'";
+					    	sql = "update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',mgsy='"+mgsy+"',jtsyl="+jtsyl+" where gpdm='"+gpdm+"'";
 					    }
 					    updateStmt.addBatch(sql);
 					    log.info(index+"："+sql);

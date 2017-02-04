@@ -67,11 +67,11 @@
 	%>
 
   	<div style="overflow: auto;width: 100%">
-	  	<table width="100%">
+	  	<table width="100%" id="parentTable">
 	  		<tr>
 	  			<td width="1%"></td>
 	  			<td>
-	  					<table width="2000" class="gptable" border="0" cellpadding="0" cellspacing="0">
+	  					<table id="listTable" width="2000" class="gptable" border="0" cellpadding="0" cellspacing="0">
 					  		<thead>
 					  			<tr>
 					  				<th width="6%" align="left">gsmc<!-- 名称 --></th>
@@ -90,6 +90,7 @@
 					  				
 					  				<th width="6%" align="left"><a target="_self" href="stock_list.jsp?orderby=icbhy&ascOrDesc=<%=ascOrDesc%>">icbhy</a><!-- ICB行业 --></th>
 					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=ltag&ascOrDesc=<%=ascOrDesc%>">ltag</a><!-- 流通A股 --></th>
+					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=mgsy&ascOrDesc=<%=ascOrDesc%>">mgsy</a><!-- 每股收益 --></th>
 					  				<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=jtsyl&ascOrDesc=<%=ascOrDesc%>">jtsyl</a><!-- 静态市盈率 --></th>
 					  				<th width="7%" align="left"><a target="_self" href="stock_list.jsp?orderby=sssj&ascOrDesc=<%=ascOrDesc%>">sssj</a><!-- 上市时间 --></th>
 					  				
@@ -112,7 +113,7 @@
 							try {
 								conn = DBUtil.getConnection();
 								stmt = conn.createStatement();
-								sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,jtsyl,sssj,star,remark,updateType,"+
+								sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,mgsy,jtsyl,sssj,star,remark,updateType,"+
 									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp "+where+" (gpjzqz NOT IN (0,1) or star=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
 								rs = stmt.executeQuery(sql);
 								int i = 0;
@@ -200,6 +201,10 @@
 						  				<!-- 流通A股 -->
 						  				<td>
 						  					<%=null == rs.getString("ltag") ? "" : rs.getString("ltag")%>
+						  				</td>
+						  				<!-- 每股收益 -->
+						  				<td>
+						  					<%=null == rs.getString("mgsy") ? "" : rs.getString("mgsy")%>
 						  				</td>
 						  				<!-- 静态市盈率 -->
 						  				<td>

@@ -3,6 +3,11 @@
  * @date 2014-04-01
  */
  $(function(){
+ 	var width = $("#parentTable").width()-90;
+ 	if (width > 2000) {
+ 		$("#listTable").attr("width", width);
+ 	}
+ 
 	//权重修改对话框   
 	$("#weightChangeDialog").dialog({
 		autoOpen: false,

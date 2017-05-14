@@ -219,7 +219,6 @@ public class StockAction extends HttpServlet {
 			int index = 0;
 			
 			conn = DBUtil.getConnection();
-			conn.setAutoCommit(false);
 			stmt = conn.createStatement();
 			updateStmt = conn.createStatement();
 			sql = "SELECT gpdm,icbhy,ltag FROM tbl_gp order by gpjzqz desc";
@@ -237,6 +236,7 @@ public class StockAction extends HttpServlet {
 				String updateType = "";
 				try {
 					gpdm = rs.getString("gpdm");
+					log.info(index + "、gpdm = " + gpdm);
 					if (null != gpdm && !"".equals(gpdm)) {
 						url = "http://stockdata.stock.hexun.com/"+(gpdm)+".shtml";
 						xmlDoc = CommonUtil.getURLContentByHttpClient(url, "gbk");
@@ -270,8 +270,6 @@ public class StockAction extends HttpServlet {
 					    	mgsy = "0";
 					    }
 					    
-					    
-					    
 					    //市盈率
 					    jtsyl = StockDao.getStockJtsylFromHexun(gpdm);
 					    //如果本次更新的内容与数据库中保存的不一致，则记录本次新的内容
@@ -288,17 +286,13 @@ public class StockAction extends HttpServlet {
 					    } else {
 					    	sql = "update tbl_gp set icbhy='"+icbhy+"',ltag='"+ltag+"',mgsy='"+mgsy+"',jtsyl="+jtsyl+" where gpdm='"+gpdm+"'";
 					    }
-					    updateStmt.addBatch(sql);
+					    updateStmt.executeUpdate(sql);
 					    log.info(index+"："+sql);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			log.info("saving......");
-			updateStmt.executeBatch();
-			conn.commit();
-			log.info("saving success!!!!");
 			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();

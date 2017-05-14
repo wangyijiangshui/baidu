@@ -23,6 +23,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreConnectionPNames;
 
 
 /**
@@ -267,12 +268,16 @@ public class CommonUtil {
         String content = null;  
         try {
             // 定义HttpClient  
-            HttpClient client = new DefaultHttpClient();  
+            HttpClient client = new DefaultHttpClient();
+            //请求超时
+            client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 1000 * 5); 
+            //读取超时
+            client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 1000 * 5);
             // 实例化HTTP方法  
             HttpGet request = new HttpGet();  
             request.setURI(new URI(url));  
             HttpResponse response = client.execute(request);  
-            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));  
+            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), encoding));  
             StringBuffer sb = new StringBuffer("");  
             String line = "";  
             //String NL = System.getProperty("line.separator");  

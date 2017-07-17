@@ -114,7 +114,7 @@
 								conn = DBUtil.getConnection();
 								stmt = conn.createStatement();
 								sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,mgsy,jtsyl,sssj,star,remark,updateType,"+
-									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp "+where+" (gpjzqz NOT IN (0,1) or star=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
+									"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp "+where+" (gpjzqz NOT IN (0,1) or star=1 or 1=1) order by gpjzqz desc," + orderby + " " + ascOrDesc;
 								rs = stmt.executeQuery(sql);
 								int i = 0;
 								int j = 0;

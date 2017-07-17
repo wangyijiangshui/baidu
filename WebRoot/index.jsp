@@ -209,6 +209,13 @@
 							<div class="ui-widget" style="margin-top: 10px;">
 								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
 									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+									<strong>呵呵：</strong>拒绝木讷，学会主动，学会体贴，最主要的是学会自我做主，领导生活。要把该照顾的人，照顾的妥妥帖帖的！</p>
+								</div>
+							</div>
+							
+							<div class="ui-widget" style="margin-top: 10px;">
+								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
 									<strong>呵呵：</strong>万不得已不撒谎，记住朋友姓名，记住亲人手机生日。</p>
 								</div>
 							</div>

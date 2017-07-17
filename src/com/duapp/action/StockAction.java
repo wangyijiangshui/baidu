@@ -462,7 +462,7 @@ public class StockAction extends HttpServlet {
 			try {
 				conn = DBUtil.getConnection();
 				stmt = conn.createStatement();
-				sql = "update tbl_gp set remark=null,remarkTime=now() where gpdm='"+gpdm+"'";
+				sql = "update tbl_gp set remarkTime=now() where gpdm='"+gpdm+"'";
 				if(stmt.executeUpdate(sql) > 0) {
 					result = true;
 				}

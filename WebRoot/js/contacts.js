@@ -227,7 +227,7 @@ function openDetailViewDialog(id) {
 	$.post("contacts.do?method=queryById",{"id":id},function(data){
 		closeProcessDialog();
 	    if(data) {
-	    	$("#detailViewDialog").serializeToForm(data, 'text', 'name');
+		    	$("#detailViewDialog").serializeToForm(data, 'html', 'name');
 	    	$("#detailViewDialog td[name='remark']").html(data.remark);
 	    	if(data.logo) {
 	    		$("#detailViewDialog img[name='logo']").attr("src", "download.do?fileName="+id+"/"+data.logo);

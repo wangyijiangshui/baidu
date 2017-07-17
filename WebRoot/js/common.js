@@ -86,12 +86,16 @@ $.fn.serializeToForm = function(jsonObject, type, tagAttr){
      		if(null != jsonObject[key] && "null" != jsonObject[key]) {
 	     		if (type && 'text'== type) {
 	     			inputObj.text(jsonObject[key]);
+	     		} else if(type && 'html'== type) {
+	     			inputObj.html(jsonObject[key]);
 	     		} else {
 	     			inputObj.val(jsonObject[key]);
 	     		}
      		} else {
      			if (type && 'text'== type) {
 	     			inputObj.text("&nbsp;");
+	     		} else if(type && 'html'== type) {
+	     			inputObj.html("&nbsp;");
 	     		} else {
 	     			inputObj.val("");
 	     		}

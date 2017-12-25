@@ -164,11 +164,11 @@
 						  					<a target="_blank" href="<%=CommonUtil.getGpUrl("ths", rs.getString("gpdm")) %>">
 						  					<%
 						  						if (-1 != zdbl.indexOf("-")) {
-						  							out.print("<font color=''>↓"+(rs.getString("zdbl"))+"%</font>");
+						  							out.print("<font color='green'>↓"+(rs.getString("zdbl"))+"%</font>");
 						  						} else if (-1 != zdbl.indexOf("0.00") && -1 == zdbl.indexOf("1")) {
 						  							out.print(rs.getString("zdbl")+"%");
 						  						} else if(!"".equals(zdbl)){
-						  							out.print("<font color=''>↑+"+(rs.getString("zdbl"))+"%</font>");
+						  							out.print("<font color='red'>↑+"+(rs.getString("zdbl"))+"%</font>");
 						  						}
 						  					%>
 						  					</a>

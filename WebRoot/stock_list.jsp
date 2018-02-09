@@ -228,9 +228,9 @@
 						  					%>
 						  					</span>
 						  					<!-- 股票备注 -->
-						  					<span id="remark<%=rs.getString("gpdm")%>" onclick="openRemarkWriteDialog('<%=rs.getString("gpdm")%>')" title="<%=rs.getString("remark")%>">
+						  					<span id="remark<%=rs.getString("gpdm")%>" onclick="openRemarkWriteDialog('<%=rs.getString("gpdm")%>')" title="<%=CommonUtil.delHTMLTag(rs.getString("remark"))%>">
 						  					<%
-						  						out.print(CommonUtil.subString(rs.getString("remark"), 14));
+						  						out.print(CommonUtil.subString(CommonUtil.delHTMLTag(rs.getString("remark")), 14));
 						  					%>
 						  					</span>
 						  				</td>

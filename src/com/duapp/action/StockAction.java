@@ -155,16 +155,17 @@ public class StockAction extends HttpServlet {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
 			updateStmt = conn.createStatement();
+			//先清空数据库中股票的价格信息数据
+			sql = "update tbl_gp set gpjg=0,zde=0,zdbl=0,huanShou=0,zhenFu=0,liangBi=0";
+			updateStmt.executeUpdate(sql);
+			int index = 0;
 			
 			for (int page =1 ; page <= 2; page ++) {
 				url = "http://quote.tool.hexun.com/hqzx/quote.aspx?type=2&market=0&sorttype=3&updown=up&page="+page+"&count=2000&time=0";
 				xmlDoc = CommonUtil.getURLContent(url, "gbk");
 				xmlDoc = xmlDoc.substring(xmlDoc.indexOf("= ")+3, xmlDoc.indexOf("];")).trim();
 				gpdms = xmlDoc.split("],");
-				//先清空数据库中股票的价格信息数据
-				sql = "update tbl_gp set gpjg=0,zde=0,zdbl=0,huanShou=0,zhenFu=0,liangBi=0";
-				updateStmt.executeUpdate(sql);
-				int index = 0;
+				
 				for (String gpdm : gpdms) {
 					index = index + 1;
 					try {

@@ -365,7 +365,6 @@ public class CommonUtil {
         Matcher m_html=p_html.matcher(htmlStr); 
         htmlStr=m_html.replaceAll(""); //过滤html标签 
         
-        System.out.println(htmlStr);
         return htmlStr.trim(); //返回文本字符串 
     } 
 }

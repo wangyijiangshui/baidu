@@ -43,7 +43,7 @@ public class StockDao {
 		if(null == gpdm || "".equals(gpdm)) {
 			return 0;
 		}
-		if(gpdm.startsWith("00")){
+		if(gpdm.startsWith("00") || gpdm.startsWith("300")){
 			gpdm = "szse"+gpdm;
 		} else {
 			gpdm = "sse"+gpdm;

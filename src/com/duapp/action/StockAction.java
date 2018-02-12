@@ -155,38 +155,51 @@ public class StockAction extends HttpServlet {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
 			updateStmt = conn.createStatement();
-			url = "http://quote.tool.hexun.com/hqzx/quote.aspx?type=2&market=2&sorttype=3&updown=up&page=1&count=2000&time=0";
-			xmlDoc = CommonUtil.getURLContent(url, "gbk");
-			xmlDoc = xmlDoc.substring(xmlDoc.indexOf("= ")+3, xmlDoc.indexOf("];")).trim();
-			gpdms = xmlDoc.split("],");
-			//先清空数据库中股票的价格信息数据
-			sql = "update tbl_gp set gpjg=0,zde=0,zdbl=0,huanShou=0,zhenFu=0,liangBi=0";
-			updateStmt.executeUpdate(sql);
-			int index = 0;
-			for (String gpdm : gpdms) {
-				index = index + 1;
-				try {
-					gpInfos = gpdm.trim().replace("[", "").replace("'", "").replace("]", "").split(",");
-					//根据现价和涨跌幅度计算涨跌额度
-					String zde = ((Float.parseFloat(gpInfos[2])*Float.parseFloat(gpInfos[3]))/100)+"";
-					zde = zde.length() > 4 ? zde.substring(0,4) : zde;
-					
-					sql = "update tbl_gp set gsmc='"+gpInfos[1]+"',gpjg='"+gpInfos[2]+"',zde='"+zde+"',zdbl='"+gpInfos[3]+"',huanShou="+gpInfos[10]+
-							",zhenFu="+gpInfos[11]+",liangBi="+gpInfos[12]+" where gpdm='"+gpInfos[0]+"'";
-					log.info(index+"、sql="+sql);
-					//如果没有更新成功，则判断当前股票是否是深圳A股中小企业板，如果是则保存
-					if(updateStmt.executeUpdate(sql) <= 0 && gpInfos[0].startsWith("00")) {
-						String sssj = StockDao.getStockSssj(gpInfos[0]);//获取是上市时间
-						sql  = "INSERT INTO `tbl_gp`(`gpdm`,`gsmc`,`gpjzqz`,`gpjg`,`zde`,`zdbl`,huanShou,zhenFu,liangBi,sssj,`updateType`,`updateTypeTime`) " +
-									"VALUES ('"+gpInfos[0]+"','"+gpInfos[1]+"',-1,'"+gpInfos[2]+"','"+zde+"',"+gpInfos[3]+","+gpInfos[10]+
-									","+gpInfos[11]+","+gpInfos[12]+","+sssj+",'NEW!!',now())";
-						log.info(index+"、update faile and inser sql="+sql);
-						updateStmt.executeUpdate(sql);
+			
+			for (int page =1 ; page <= 2; page ++) {
+				url = "http://quote.tool.hexun.com/hqzx/quote.aspx?type=2&market=0&sorttype=3&updown=up&page="+page+"&count=2000&time=0";
+				xmlDoc = CommonUtil.getURLContent(url, "gbk");
+				xmlDoc = xmlDoc.substring(xmlDoc.indexOf("= ")+3, xmlDoc.indexOf("];")).trim();
+				gpdms = xmlDoc.split("],");
+				//先清空数据库中股票的价格信息数据
+				sql = "update tbl_gp set gpjg=0,zde=0,zdbl=0,huanShou=0,zhenFu=0,liangBi=0";
+				updateStmt.executeUpdate(sql);
+				int index = 0;
+				for (String gpdm : gpdms) {
+					index = index + 1;
+					try {
+						gpInfos = gpdm.trim().replace("[", "").replace("'", "").replace("]", "").split(",");
+						//根据现价和涨跌幅度计算涨跌额度
+						String zde = ((Float.parseFloat(gpInfos[2])*Float.parseFloat(gpInfos[3]))/100)+"";
+						zde = zde.length() > 4 ? zde.substring(0,4) : zde;
+						
+						sql = "update tbl_gp set gsmc='"+gpInfos[1]+"',gpjg='"+gpInfos[2]+"',zde='"+zde+"',zdbl='"+gpInfos[3]+"',huanShou="+gpInfos[10]+
+								",zhenFu="+gpInfos[11]+",liangBi="+gpInfos[12]+" where gpdm='"+gpInfos[0]+"'";
+						log.info(index+"、sql="+sql);
+						//如果没有更新成功，则判断当前股票是否是深圳A股中小企业板，如果是则保存
+						if(updateStmt.executeUpdate(sql) <= 0) {
+							int gpType = 0;
+							if (gpInfos[0].startsWith("600")) {
+								gpType = 1;
+							} else if (gpInfos[0].startsWith("300")) {
+								gpType = 3;
+							} else if (gpInfos[0].startsWith("000") || gpInfos[0].startsWith("001") || gpInfos[0].startsWith("002")) {
+								gpType = 2;
+							}
+							
+							String sssj = StockDao.getStockSssj(gpInfos[0]);//获取是上市时间
+							sql  = "INSERT INTO `tbl_gp`(`gpdm`,`gsmc`,`gpjzqz`,`gpjg`,`zde`,`zdbl`,huanShou,zhenFu,liangBi,sssj,gpType,`updateType`,`updateTypeTime`) " +
+										"VALUES ('"+gpInfos[0]+"','"+gpInfos[1]+"',-1,'"+gpInfos[2]+"','"+zde+"',"+gpInfos[3]+","+gpInfos[10]+
+										","+gpInfos[11]+","+gpInfos[12]+","+sssj+","+gpType+",'NEW!!',now())";
+							log.info(index+"、update faile and inser sql="+sql);
+							updateStmt.executeUpdate(sql);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
+			
 			result = true;
 		} catch (Exception e) {
 			e.printStackTrace();

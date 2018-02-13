@@ -70,146 +70,134 @@
 		}
 	%>
 
-  	<div style="overflow: auto;width: 100%;">
-	  	<table width="100%">
-	  		<tr>
-	  			<td width="1%"></td>
-	  			<td>
-	  					<table width="100%" class="contactsTable" border="0" cellpadding="4" cellspacing="4">
-					  		<thead>
-					  			<tr>
-					  				<!-- 序号 -->
-					  				<th width="7%" align="center">A</th>
-					  				<!-- 联系人照片 -->
-					  				<th width="110px" align="center">
-					  					<a target="_self" href="contacts_list.jsp?bigOrSmall=<%=bigOrSmall%>">B</a>
-					  				</th>
-					  				<!-- 姓名 -->
-					  				<th width="7%" align="center">
-					  					<a target="_self" href="contacts_list.jsp?orderby=a.name&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">C</a>
-					  				</th>
-					  				<!-- 出生地籍贯 -->
-					  				<th width="8%" align="center">
-					  					<a target="_self" href="contacts_list.jsp?orderby=a.bornProvince&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">D</a>
-					  				</th>
-					  				<!-- 工作职称 -->
-					  				<th width="10%" align="center">
-					  					<a target="_self" href="contacts_list.jsp?orderby=a.workTitle&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">E</a>
-					  				</th>
-					  				<!-- 详细工作地址 -->
-					  				<th align="center">
-					  					<a target="_self" href="contacts_list.jsp?orderby=a.workAddress&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">F</a>
-					  				</th>
-					  				<!-- 称呼 -->
-					  				<th width="5%" align="center">
-					  					<a target="_self" href="contacts_list.jsp?orderby=a.call&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">G</a>
-					  					</th>
-					  				<!-- 分类 -->
-					  				<th width="8%" align="center">
-					  					<a target="_self" href="contacts_list.jsp?orderby=a.catType&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">I</a>
-					  				</th>
-					  				<!-- 关系权重 -->
-					  				<th width="3%" align="center">
-					  					<a target="_self" href="contacts_list.jsp?orderby=a.weight&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">H</a>
-					  				</th>
-					  			</tr>
-					  		</thead>
-					  		<tbody>
-					  			
-					    <%
-							Connection conn = null;
-							Statement stmt = null;
-							ResultSet rs = null;
-							String sql = null;
-							try {
-								conn = DBUtil.getConnection();
-								stmt = conn.createStatement();
-								sql = "SELECT a.id,a.logo,a.name,a.sex,a.bornProvince,a.workTitle,a.workAddress,a.call,a.weight,b.typeName,a.remark "
-										+ "FROM tbl_contacts a LEFT OUTER JOIN tbl_contacts_type b ON a.catType=b.id" 
-										+ " where a.deleteFlag=1 ORDER BY " + orderby + " " + ascOrDesc;
-								rs = stmt.executeQuery(sql);
-								int i = 0;
-								int j = 0;
-								String typeName = null;
-								while(rs.next()) {
-									if (null != typeName  && !typeName.equals(rs.getString("typeName"))) {
-										j = 0;
-						%>
-									<tr>
-						  				<td colspan="9" height="90px;">&nbsp;</td>
-						  			</tr>
-						<%	
-									}
-									typeName = rs.getString("typeName");
-						%>
-									<tr class="contactsTr" id="tr<%=rs.getInt("id")%>" height="50px;">
-						  				<!-- 序号 -->
-						  				<td>
-						  					<%
-						  						if(null != rs.getString("sex") && "女".equals(rs.getString("sex"))) {
-						  							out.print("<font color='red'>♀</font>");
-						  						} else {
-						  							out.print("<font color='green'>♂</font>");
-						  						}
-						  					 %>
-						  					<span style="cursor: pointer;" class="sequence" contactsId="<%=rs.getInt("id")%>"><%=(++i)+"-"+(++j)%></span>
-						  				</td>
-						  				<!-- 联系人照片 -->
-						  				<td>
-						  					<%
-						  						if (null != rs.getString("logo") && !"".equals(rs.getString("logo"))) {
-						  							out.print("<img style='cursor: pointer;' src='download.do?fileName="+rs.getString("id")+"/"+rs.getString("logo")+"' width='"+width+"px;' height='"+height+"px;' border='0'/>");
-						  						} else {
-						  							out.print("<img style='cursor: pointer;' src='image/head_icon.png' width='"+width+"px;' height='"+height+"px;' border='0'/>");
-						  						}
-						  					%>
-						  				</td>
-						  				<!-- 姓名 -->
-						  				<td style="cursor: pointer;" onclick="openEditContactsDialog('<%=rs.getInt("id")%>')">
-						  					<%=rs.getString("name")%>
-						  				</td>
-						  				<!-- 出生地籍贯 -->
-						  				<td>
-						  					<%=rs.getString("bornProvince")%>
-						  				</td>
-						  				<!-- 工作职称 -->
-						  				<td>
-						  					<%=rs.getString("workTitle")%>
-						  				</td>
-						  				<!-- 详细工作地址 -->
-						  				<td style="cursor: pointer;" ondblclick="openDetailViewDialog('<%=rs.getInt("id")%>')">
-						  					<%=rs.getString("workAddress")%>
-						  				</td>
-						  				<!-- 称呼 -->
-						  				<td>
-						  					<%=rs.getString("call")%>
-						  				</td>
-						  				<!-- 分类 -->
-						  				<td>
-						  					<%=rs.getString("typeName")%>
-						  				</td>
-						  				<!-- 关系权重 -->
-						  				<td>
-						  					<div onclick="addOrMinusWeight('<%=rs.getInt("id")%>',1)" style="margin-bottom: 10px;font-weight: bold;color: red;cursor: pointer;">＋</div>
-						  					<div id="weightDiv<%=rs.getInt("id")%>"><%=rs.getString("weight")%></div>
-						  					<div onclick="addOrMinusWeight('<%=rs.getInt("id")%>',-1)" style="margin-top: 10px;font-weight: bold;color: green;cursor: pointer;">－</div>
-						  				</td>
-						  			</tr>
-						<%
-								}
-							} catch (Exception e) {
-								e.printStackTrace(response.getWriter());
-							} finally {
-								DBUtil.close(rs, stmt, conn);
-							}
-					    %>
-					    </tbody>
-					  		<tfoot>
-					  		</tfoot>
-					  	</table>
-	  			</td>
-	  			<td width="1%"></td>
-	  		</tr>
+	<table width="100%" class="contactsTable" border="0" cellpadding="4" cellspacing="4" style="margin-top: 5px;margin-bottom: 5px;font-size: 20px;">
+		<tr>
+			<!-- 序号 -->
+			<th width="7%" align="center" style="height:50px;">A</th>
+			<!-- 联系人照片 -->
+			<th width="7%" align="center">
+				<a target="_self" href="contacts_list.jsp?bigOrSmall=<%=bigOrSmall%>">B</a>
+			</th>
+			<!-- 姓名 -->
+			<th width="7%" align="center">
+				<a target="_self" href="contacts_list.jsp?orderby=a.name&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">C</a>
+			</th>
+			<!-- 出生地籍贯 -->
+			<th width="8%" align="center">
+				<a target="_self" href="contacts_list.jsp?orderby=a.bornProvince&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">D</a>
+			</th>
+			<!-- 工作职称 -->
+			<th width="10%" align="center">
+				<a target="_self" href="contacts_list.jsp?orderby=a.workTitle&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">E</a>
+			</th>
+			<!-- 详细工作地址 -->
+			<th align="center">
+				<a target="_self" href="contacts_list.jsp?orderby=a.workAddress&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">F</a>
+			</th>
+			<!-- 称呼 -->
+			<th width="5%" align="center">
+				<a target="_self" href="contacts_list.jsp?orderby=a.call&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">G</a>
+			</th>
+			<!-- 分类 -->
+			<th width="8%" align="center">
+				<a target="_self" href="contacts_list.jsp?orderby=a.catType&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">I</a>
+			</th>
+			<!-- 关系权重 -->
+			<th width="3%" align="center">
+				<a target="_self" href="contacts_list.jsp?orderby=a.weight&ascOrDesc=<%=ascOrDesc%>&bigOrSmall=<%=bigOrSmall%>">H</a>
+			</th>
+		</tr>
+	</table>
+					  		
+  	<div id="listDiv" style="overflow: auto;width: 100%;height:500px;">
+	  	<table class="contactsTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+		    <%
+				Connection conn = null;
+				Statement stmt = null;
+				ResultSet rs = null;
+				String sql = null;
+				try {
+					conn = DBUtil.getConnection();
+					stmt = conn.createStatement();
+					sql = "SELECT a.id,a.logo,a.name,a.sex,a.bornProvince,a.workTitle,a.workAddress,a.call,a.weight,b.typeName,a.remark "
+							+ "FROM tbl_contacts a LEFT OUTER JOIN tbl_contacts_type b ON a.catType=b.id" 
+							+ " where a.deleteFlag=1 ORDER BY " + orderby + " " + ascOrDesc;
+					rs = stmt.executeQuery(sql);
+					int i = 0;
+					int j = 0;
+					String typeName = null;
+					while(rs.next()) {
+						if (null != typeName  && !typeName.equals(rs.getString("typeName"))) {
+							j = 0;
+			%>
+						<tr>
+			  				<td colspan="9" height="90px;">&nbsp;</td>
+			  			</tr>
+			<%	
+						}
+						typeName = rs.getString("typeName");
+			%>
+						<tr class="contactsTr" id="tr<%=rs.getInt("id")%>" height="50px;">
+			  				<!-- 序号 -->
+			  				<td width="7%">
+			  					<%
+			  						if(null != rs.getString("sex") && "女".equals(rs.getString("sex"))) {
+			  							out.print("<font color='red'>♀</font>");
+			  						} else {
+			  							out.print("<font color='green'>♂</font>");
+			  						}
+			  					 %>
+			  					<span style="cursor: pointer;" class="sequence" contactsId="<%=rs.getInt("id")%>"><%=(++i)+"-"+(++j)%></span>
+			  				</td>
+			  				<!-- 联系人照片 -->
+			  				<td width="7%">
+			  					<%
+			  						if (null != rs.getString("logo") && !"".equals(rs.getString("logo"))) {
+			  							out.print("<img style='cursor: pointer;' src='download.do?fileName="+rs.getString("id")+"/"+rs.getString("logo")+"' width='"+width+"px;' height='"+height+"px;' border='0'/>");
+			  						} else {
+			  							out.print("<img style='cursor: pointer;' src='image/head_icon.png' width='"+width+"px;' height='"+height+"px;' border='0'/>");
+			  						}
+			  					%>
+			  				</td>
+			  				<!-- 姓名 -->
+			  				<td width="7%" style="cursor: pointer;" onclick="openEditContactsDialog('<%=rs.getInt("id")%>')">
+			  					<%=rs.getString("name")%>
+			  				</td>
+			  				<!-- 出生地籍贯 -->
+			  				<td width="8%">
+			  					<%=rs.getString("bornProvince")%>
+			  				</td>
+			  				<!-- 工作职称 -->
+			  				<td width="10%">
+			  					<%=rs.getString("workTitle")%>
+			  				</td>
+			  				<!-- 详细工作地址 -->
+			  				<td style="cursor: pointer;" ondblclick="openDetailViewDialog('<%=rs.getInt("id")%>')">
+			  					<%=rs.getString("workAddress")%>
+			  				</td>
+			  				<!-- 称呼 -->
+			  				<td width="5%">
+			  					<%=rs.getString("call")%>
+			  				</td>
+			  				<!-- 分类 -->
+			  				<td width="8%">
+			  					<%=rs.getString("typeName")%>
+			  				</td>
+			  				<!-- 关系权重 -->
+			  				<td width="3%">
+			  					<div onclick="addOrMinusWeight('<%=rs.getInt("id")%>',1)" style="margin-bottom: 10px;font-weight: bold;color: red;cursor: pointer;">＋</div>
+			  					<div id="weightDiv<%=rs.getInt("id")%>"><%=rs.getString("weight")%></div>
+			  					<div onclick="addOrMinusWeight('<%=rs.getInt("id")%>',-1)" style="margin-top: 10px;font-weight: bold;color: green;cursor: pointer;">－</div>
+			  				</td>
+			  			</tr>
+			<%
+					}
+				} catch (Exception e) {
+					e.printStackTrace(response.getWriter());
+				} finally {
+					DBUtil.close(rs, stmt, conn);
+				}
+		    %>
 	  	</table>
   	</div>
   	

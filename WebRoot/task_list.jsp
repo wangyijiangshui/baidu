@@ -57,122 +57,110 @@
 		}
 	%>
 
-  	<div style="overflow: auto;width: 100%;">
-	  	<table width="100%">
-	  		<tr>
-	  			<td width="1%"></td>
-	  			<td>
-	  					<table width="100%" class="taskTable" border="0" cellpadding="4" cellspacing="4">
-					  		<thead>
-					  			<tr>
-					  				<th width="6%" align="center">A</th><!-- 序号 -->
-					  				<th align="center">B</th><!-- 任务内容-备注 -->
-					  				<th width="2%">&nbsp;</th>
-					  				<th width="13%" align="center"><a target="_self" href="task_list.jsp?orderby=a.endTime&ascOrDesc=<%=ascOrDesc%>">C</a></th><!-- 任务要求完成时间 -->
-					  				<th width="4%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskType&ascOrDesc=<%=ascOrDesc%>">D</a></th><!-- 类型 -->
-					  				<th width="5%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskVolume&ascOrDesc=<%=ascOrDesc%>">E</a></th><!-- 任务大小 -->
-					  				<th width="5%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskUrgency&ascOrDesc=<%=ascOrDesc%>">F</a></th><!-- 紧急程度 -->
-					  				<th width="8%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskCome&ascOrDesc=<%=ascOrDesc%>">H</a></th><!-- 任务来源 -->
-					  				<th width="9%" align="center">G</th><!-- 状态 -->
-					  			</tr>
-					  		</thead>
-					  		<tbody>
-					  			
-					    <%
-							Connection conn = null;
-							Statement stmt = null;
-							ResultSet rs = null;
-							String sql = null;
-							try {
-								conn = DBUtil.getConnection();
-								stmt = conn.createStatement();
-								sql = "SELECT a.id,a.task,a.taskType,a.taskVolume,a.taskUrgency,a.taskStatus,b.`taskCome`,a.endTime,a.remark,"
-										+ "DATEDIFF(NOW(),a.endTime) behindDay FROM tbl_task a LEFT OUTER JOIN tbl_task_come b ON a.`taskCome`=b.`id`" 
-										+ " where deleteFlag=1 ORDER BY a.taskStatus ASC," + orderby + " " + ascOrDesc;
-								rs = stmt.executeQuery(sql);
-								int i = 0;
-								int j = 0;
-								int taskStatus = -2;
-								while(rs.next()) {
-									if (taskStatus != -2 && taskStatus != rs.getInt("taskStatus")) {
-										j = 0;
-						%>
-									<tr>
-						  				<td colspan="9" height="90px;">&nbsp;</td>
-						  			</tr>
-						<%	
-									}
-									taskStatus = rs.getInt("taskStatus");
-						%>
-									<tr class="taskTr" id="tr<%=rs.getInt("id")%>"">
-						  				<!-- 序号 -->
-						  				<td>
-						  					<span style="cursor: pointer;" class="sequence" taskId="<%=rs.getInt("id")%>"><%=(++i)+"-"+(++j)%></span>
-						  				</td>
-						  				<!-- 任务内容 -->
-						  				<td>
-						  					<%=rs.getString("task")%>
-						  					<%=null != rs.getObject("remark") ? "<font style='cursor: pointer;' color='red' onclick='openRemarkViewDialog(\""+(rs.getInt("id"))+"\")'>[备注]</font>":"" %>
-						  				</td>
-						  				<td>
-						  					&nbsp;
-						  				</td>
-						  				<!-- 任务要求完成时间 -->
-						  				<td>
-						  					<%=CommonUtil.formatDate(rs.getTimestamp("endTime"), "yyyy-MM-dd")%>
-						  					<font color="red"><%=rs.getInt("behindDay")> 0 ? "("+rs.getInt("behindDay")+")":""%></font>
-						  				</td>
-						  				<!-- 类型 -->
-						  				<td>
-						  					<%=ConvertUtil.convertTaskType(rs.getInt("taskType"))%>
-						  				</td>
-						  				<!-- 任务大小 -->
-						  				<td>
-						  					<%=ConvertUtil.convertTaskVolume(rs.getInt("taskVolume"))%>
-						  				</td>
-						  				<!-- 紧急程度 -->
-						  				<td>
-						  					<%=ConvertUtil.convertTaskUrgency(rs.getInt("taskUrgency"))%>
-						  				</td>
-						  				<!-- 任务来源 -->
-						  				<td>
-						  					<%=rs.getString("taskCome")%>
-						  				</td>
-						  				<!-- 状态 -->
-						  				<td>
-						  					<%
-						  						int status = rs.getInt("taskStatus");
-						  						String color = null;
-						  						if (status == 3 || status == 4 || status == 5) {
-						  							color = status == 3 ? "green":(status == 4 ? "black":"red");
-						  					%>
-						  						<font color="<%=color%>">&nbsp;&nbsp;&nbsp;&nbsp;<%=ConvertUtil.convertTaskStatus(rs.getInt("taskStatus"))%></font>
-						  					<%		
-						  						} else {
-						  					%>
-							  					<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;">
-													<span taskId="<%=rs.getInt("id")%>" class="taskStatus ui-button-text"><%=ConvertUtil.convertTaskStatus(rs.getInt("taskStatus"))%></span>
-												</button>
-						  					<%	
-						  						}
-						  					 %>
-						  				</td>
-						  			</tr>
-						<%
-								}
-							} catch (Exception e) {
-								e.printStackTrace(response.getWriter());
-							} finally {
-								DBUtil.close(rs, stmt, conn);
-							}
-					    %>
-					    </tbody>
-					  		<tfoot>
-					  		</tfoot>
-					  	</table>
-	  			</td>
-	  			<td width="1%"></td>
-	  		</tr>
+	<table width="100%" class="taskTable" border="0" cellpadding="4" cellspacing="4" style="margin-top: 5px;margin-bottom: 5px;font-size: 20px;">
+		<tr>
+			<th width="6%" align="center" style="height:50px;">A</th><!-- 序号 -->
+			<th align="center">B</th><!-- 任务内容-备注 -->
+			<th width="2%">&nbsp;</th>
+			<th width="13%" align="center"><a target="_self" href="task_list.jsp?orderby=a.endTime&ascOrDesc=<%=ascOrDesc%>">C</a></th><!-- 任务要求完成时间 -->
+			<th width="4%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskType&ascOrDesc=<%=ascOrDesc%>">D</a></th><!-- 类型 -->
+			<th width="5%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskVolume&ascOrDesc=<%=ascOrDesc%>">E</a></th><!-- 任务大小 -->
+			<th width="5%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskUrgency&ascOrDesc=<%=ascOrDesc%>">F</a></th><!-- 紧急程度 -->
+			<th width="8%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskCome&ascOrDesc=<%=ascOrDesc%>">H</a></th><!-- 任务来源 -->
+			<th width="9%" align="center">G</th><!-- 状态 -->
+		</tr>
+	</table>
+					  		
+  	<div id="listDiv" style="overflow: auto;width: 100%;height:500px;">
+	  	<table class="taskTable" width="100%" border="0" cellpadding="0" cellspacing="0">
+		    <%
+				Connection conn = null;
+				Statement stmt = null;
+				ResultSet rs = null;
+				String sql = null;
+				try {
+					conn = DBUtil.getConnection();
+					stmt = conn.createStatement();
+					sql = "SELECT a.id,a.task,a.taskType,a.taskVolume,a.taskUrgency,a.taskStatus,b.`taskCome`,a.endTime,a.remark,"
+							+ "DATEDIFF(NOW(),a.endTime) behindDay FROM tbl_task a LEFT OUTER JOIN tbl_task_come b ON a.`taskCome`=b.`id`" 
+							+ " where deleteFlag=1 ORDER BY a.taskStatus ASC," + orderby + " " + ascOrDesc;
+					rs = stmt.executeQuery(sql);
+					int i = 0;
+					int j = 0;
+					int taskStatus = -2;
+					while(rs.next()) {
+						if (taskStatus != -2 && taskStatus != rs.getInt("taskStatus")) {
+							j = 0;
+			%>
+						<tr>
+			  				<td colspan="9" height="90px;">&nbsp;</td>
+			  			</tr>
+			<%	
+						}
+						taskStatus = rs.getInt("taskStatus");
+			%>
+						<tr class="taskTr" id="tr<%=rs.getInt("id")%>"">
+			  				<!-- 序号 -->
+			  				<td style="height:40px;">
+			  					<span style="cursor: pointer;" class="sequence" taskId="<%=rs.getInt("id")%>"><%=(++i)+"-"+(++j)%></span>
+			  				</td>
+			  				<!-- 任务内容 -->
+			  				<td>
+			  					<%=rs.getString("task")%>
+			  					<%=null != rs.getObject("remark") ? "<font style='cursor: pointer;' color='red' onclick='openRemarkViewDialog(\""+(rs.getInt("id"))+"\")'>[备注]</font>":"" %>
+			  				</td>
+			  				<td>
+			  					&nbsp;
+			  				</td>
+			  				<!-- 任务要求完成时间 -->
+			  				<td>
+			  					<%=CommonUtil.formatDate(rs.getTimestamp("endTime"), "yyyy-MM-dd")%>
+			  					<font color="red"><%=rs.getInt("behindDay")> 0 ? "("+rs.getInt("behindDay")+")":""%></font>
+			  				</td>
+			  				<!-- 类型 -->
+			  				<td>
+			  					<%=ConvertUtil.convertTaskType(rs.getInt("taskType"))%>
+			  				</td>
+			  				<!-- 任务大小 -->
+			  				<td>
+			  					<%=ConvertUtil.convertTaskVolume(rs.getInt("taskVolume"))%>
+			  				</td>
+			  				<!-- 紧急程度 -->
+			  				<td>
+			  					<%=ConvertUtil.convertTaskUrgency(rs.getInt("taskUrgency"))%>
+			  				</td>
+			  				<!-- 任务来源 -->
+			  				<td>
+			  					<%=rs.getString("taskCome")%>
+			  				</td>
+			  				<!-- 状态 -->
+			  				<td>
+			  					<%
+			  						int status = rs.getInt("taskStatus");
+			  						String color = null;
+			  						if (status == 3 || status == 4 || status == 5) {
+			  							color = status == 3 ? "green":(status == 4 ? "black":"red");
+			  					%>
+			  						<font color="<%=color%>">&nbsp;&nbsp;&nbsp;&nbsp;<%=ConvertUtil.convertTaskStatus(rs.getInt("taskStatus"))%></font>
+			  					<%		
+			  						} else {
+			  					%>
+				  					<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;">
+										<span taskId="<%=rs.getInt("id")%>" class="taskStatus ui-button-text"><%=ConvertUtil.convertTaskStatus(rs.getInt("taskStatus"))%></span>
+									</button>
+			  					<%	
+			  						}
+			  					 %>
+			  				</td>
+			  			</tr>
+			<%
+					}
+				} catch (Exception e) {
+					e.printStackTrace(response.getWriter());
+				} finally {
+					DBUtil.close(rs, stmt, conn);
+				}
+		    %>
 	  	</table>
   	</div>
   	

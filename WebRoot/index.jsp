@@ -114,6 +114,8 @@
 			
 			//启动我的生命倒计时
 			myLiveCountdown();
+			
+			$("#mainDiv").css("height", $(document).height()-130);
 		});
 		
 		/**
@@ -201,11 +203,11 @@
 	</div>
 		
 	
-  	<div id="mainDiv" style="overflow: auto;height: 100;width: 100;">
+  	<div id="mainDiv" style="overflow: auto;width: 100%;height: 500px;">
  		<div id="indexContent" style="margin-top: 5px;display: none;">
 	  		<table width="100%">
 	  			<tr>
-	  				<th width="2%"></th>
+	  				<th width="1%"></th>
 	  				<th align="left">
 	  					<div class="ui-widget" style="margin-top: 1px;font-size: 20px;margin-bottom: 10px;text-align: center;">
 							服从命令、快速执行、一切从简、一次成功————>敢想、敢拼、敢做、敢梦
@@ -290,7 +292,7 @@
 							
 						</div>
 	  				</th>
-	  				<th width="2%"></th>
+	  				<th width="1%"></th>
 	  			</tr>
 	  		</table>
 	  	</div>

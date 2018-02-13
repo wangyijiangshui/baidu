@@ -24,9 +24,6 @@
 							<jsp:include page="menu.jsp"></jsp:include>
 						</td>
 						<td align="right">
-							<span style="font-size:25px;">
-								32018.15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							</span>
 							<button id="refresh_page_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Refresh Page</span>
 							</button>
@@ -66,22 +63,22 @@
 		<tr>
 			<th width="6%" align="left" style="height:50px;">gsmc<!-- 名称 --></th>
 			
-			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=gpjg&ascOrDesc=<%=ascOrDesc%>">gpjg</a><!-- 价格 --></th>
+			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=gpjg&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">gpjg</a><!-- 价格 --></th>
 			<!-- 涨跌额 -->
-			<th width="4.5%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=zdbl&ascOrDesc=<%=ascOrDesc%>">zdbl</a><!-- 涨跌比率 --></th>
-			<th width="5%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=huanShou&ascOrDesc=<%=ascOrDesc%>">huanSh</a><!-- 换手 --></th>
-			<th width="5%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=zhenFu&ascOrDesc=<%=ascOrDesc%>">zhenFu</a><!-- 振幅 --></th>
-			<th width="5%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=liangBi&ascOrDesc=<%=ascOrDesc%>">liangBi</a><!-- 量比 --></th>
+			<th width="4.5%" align="left"><a target="_self" href="stock_list.jsp?orderby=zdbl&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">zdbl</a><!-- 涨跌比率 --></th>
+			<th width="5%" align="left"><a target="_self" href="stock_list.jsp?orderby=huanShou&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">huanSh</a><!-- 换手 --></th>
+			<th width="5%" align="left"><a target="_self" href="stock_list.jsp?orderby=zhenFu&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">zhenFu</a><!-- 振幅 --></th>
+			<th width="5%" align="left"><a target="_self" href="stock_list.jsp?orderby=liangBi&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">liangBi</a><!-- 量比 --></th>
 			
 			<th width="7%" align="left">gpjzqz<!-- 分类 --></th>
 			
-			<th width="7%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=icbhy&ascOrDesc=<%=ascOrDesc%>">icbhy</a><!-- ICB行业 --></th>
-			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=ltag&ascOrDesc=<%=ascOrDesc%>">ltag</a><!-- 流通A股 --></th>
-			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=mgsy&ascOrDesc=<%=ascOrDesc%>">mgsy</a><!-- 每股收益 --></th>
-			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=jtsyl&ascOrDesc=<%=ascOrDesc%>">jtsyl</a><!-- 静态市盈率 --></th>
-			<th width="7%" align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=sssj&ascOrDesc=<%=ascOrDesc%>">sssj</a><!-- 上市时间 --></th>
+			<th width="7%" align="left"><a target="_self" href="stock_list.jsp?orderby=icbhy&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">icbhy</a><!-- ICB行业 --></th>
+			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=ltag&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">ltag</a><!-- 流通A股 --></th>
+			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=mgsy&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">mgsy</a><!-- 每股收益 --></th>
+			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=jtsyl&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">jtsyl</a><!-- 静态市盈率 --></th>
+			<th width="7%" align="left"><a target="_self" href="stock_list.jsp?orderby=sssj&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">sssj</a><!-- 上市时间 --></th>
 			
-			<th align="left"><a target="_self" href="stock_list.jsp?where=<%=where%>&orderby=remarkTime&ascOrDesc=<%=ascOrDesc%>">remarkTime</a><!-- 最后查看时间距离当前天数-备注 --></th>
+			<th align="left"><a target="_self" href="stock_list.jsp?orderby=remarkTime&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">remarkTime</a><!-- 最后查看时间距离当前天数-备注 --></th>
 			<th width="10%" align="left">updateType</th><!-- 最后修改变更类型 -->
 			
 			<th width="4%" align="left">id<!-- 序号 --></th>

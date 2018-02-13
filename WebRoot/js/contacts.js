@@ -1,4 +1,6 @@
 $(function(){
+	$("#listDiv").css("height", $(document).height()-170);
+	
 	$('#uploadLogoForm').form({
         url:'upload.do',
         onSubmit: function(){

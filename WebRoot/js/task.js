@@ -3,6 +3,8 @@
  * @date	2014-04-19
  */
  $(function(){
+	 $("#listDiv").css("height", $(document).height()-170);
+	 
 	//新增对话框   
 	$("#addOrEditTaskDialog").dialog({
 		autoOpen: false,

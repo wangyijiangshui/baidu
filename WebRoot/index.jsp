@@ -7,12 +7,18 @@
 	<jsp:include page="head-ui-1.10.4.jsp"></jsp:include>
 	<style type="text/css">
 		.input{
-			font-size: 25px;
+			font-size: 36px;
 			cursor: pointer;
 		}
 		
 		.ui-button-text{
 			cursor: pointer;
+		}
+		
+		.ui-button{
+			width: 120px;
+			height: 70px;
+			margin-top: 10px;
 		}
 		
 		#mainDiv td{
@@ -169,7 +175,7 @@
   <body>
   	<div id="headDiv" style="display: none;">
 	  	<div class="ui-widget" style="font-size: 14px;">
-			<div class="ui-state-highlight ui-corner-all" style="height: 60px;">
+			<div class="ui-state-highlight ui-corner-all" style="height: 75px;">
 				<div class="menuDiv" style="margin-top: 1px;">
 					<table border="0" width="100%">
 						<tr>
@@ -196,191 +202,191 @@
 		
 	
   	<div id="mainDiv" style="overflow: auto;height: 100;width: 100;">
-  			<div id="indexContent" style="margin-top: 5px;display: none;">
-		  		<table>
-		  			<tr>
-		  				<th width="2%"></th>
-		  				<th align="left">
-		  					<div class="ui-widget" style="margin-top: 1px;font-size: 20px;margin-bottom: 10px;text-align: center;">
-								服从命令、快速执行、一切从简、一次成功<br/>
-								敢想、敢拼、敢做、敢梦
-							</div>
+ 		<div id="indexContent" style="margin-top: 5px;display: none;">
+	  		<table width="100%">
+	  			<tr>
+	  				<th width="2%"></th>
+	  				<th align="left">
+	  					<div class="ui-widget" style="margin-top: 1px;font-size: 20px;margin-bottom: 10px;text-align: center;">
+							服从命令、快速执行、一切从简、一次成功————>敢想、敢拼、敢做、敢梦
 							
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>拒绝木讷，学会主动，学会体贴，最主要的是学会自我做主，领导生活。要把该照顾的人，照顾的妥妥帖帖的！</p>
-								</div>
+						</div>
+						
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>拒绝木讷，学会主动，学会体贴，最主要的是学会自我做主，领导生活。要把该照顾的人，照顾的妥妥帖帖的！</p>
 							</div>
+						</div>
+						
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>万不得已不撒谎，记住朋友姓名，记住亲人手机生日。</p>
+							</div>
+						</div>
+						
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>双重身份：</strong>“执行我” 听命于 “计划我”！每周“计划我”上班一次，制定或取消短长期各种任务。</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>学会做减法，在精而不在多</p>
+							</div>
+						</div>
+		  				<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>大度人生==>>行到水穷处，坐看云起时</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>看得起任何人，看不起任何人</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>人生最大的悲哀不是失去太多，而是计较太多；君子上善若水，水善利万物而不争</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>宁愿为自己做过的后悔，也不愿为自己没做的遗憾；很多事情现在不做，可能永远都不会做</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>就算不快乐也不要皱眉，因为你永远也不知道谁会爱上你的笑容</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>天下之事，只该难得，不该易得，易得之事易失去，难得之事难失去</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>争论中让对方赢，不放过任何一个称赞别人的机会。</p>
+							</div>
+						</div>
+						<div class="ui-widget" style="margin-top: 10px;">
+							<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+								<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+								<strong>呵呵：</strong>快乐人生的十个要点==>>1、脾气小一点。2、心情好一点。3、嘴巴甜一点。4、脑袋活一点。5、行动快一点。6、效率高一点。7、胆子大一点。8、理由少一点。9、运动多一点。10、身体好一点</p>
+							</div>
+						</div>
+						<div id="myLiveCountdown" class="ui-widget" style="margin-top: 20px;text-align: center;font-size: 60px;color: red;">
 							
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>万不得已不撒谎，记住朋友姓名，记住亲人手机生日。</p>
-								</div>
-							</div>
-							
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>双重身份：</strong>“执行我” 听命于 “计划我”！每周“计划我”上班一次，制定或取消短长期各种任务。</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>学会做减法，在精而不在多</p>
-								</div>
-							</div>
-			  				<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>大度人生==>>行到水穷处，坐看云起时</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>看得起任何人，看不起任何人</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>人生最大的悲哀不是失去太多，而是计较太多；君子上善若水，水善利万物而不争</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>宁愿为自己做过的后悔，也不愿为自己没做的遗憾；很多事情现在不做，可能永远都不会做</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>就算不快乐也不要皱眉，因为你永远也不知道谁会爱上你的笑容</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>天下之事，只该难得，不该易得，易得之事易失去，难得之事难失去</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>争论中让对方赢，不放过任何一个称赞别人的机会。</p>
-								</div>
-							</div>
-							<div class="ui-widget" style="margin-top: 10px;">
-								<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
-									<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-									<strong>呵呵：</strong>快乐人生的十个要点==>>1、脾气小一点。2、心情好一点。3、嘴巴甜一点。4、脑袋活一点。5、行动快一点。6、效率高一点。7、胆子大一点。8、理由少一点。9、运动多一点。10、身体好一点</p>
-								</div>
-							</div>
-							<div id="myLiveCountdown" class="ui-widget" style="margin-top: 20px;text-align: center;font-size: 60px;color: red;">
-								
-							</div>
-		  				</th>
-		  				<th width="2%"></th>
-		  			</tr>
-		  		</table>
-		  	</div>
-		  	
-		  	<table id="loginTable" border="0" width="100%" style="margin-top: 100px;display: none;" cellpadding="0" cellspacing="0">
-  				<tr>
-  					<td width="40%">&nbsp;</td>
-  					<td style="border:#333 1px dashed;">
-  						<table border="0" width="100%" cellpadding="0" cellspacing="0">
-  							<thead>
-	  							<tr>
-	  								<td colspan="3">
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span id="pass" class="ui-button-text" style="width: 80px;">
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											</span>
-										</button>
-	  								</td>
-	  							</tr>
-  							</thead>
-  							<tbody>
-  								<tr>
-	  								<td colspan="3" height="20px;">
-	  									&nbsp;
-	  								</td>
-	  							</tr>
-	  							<tr>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">7</span>
-										</button>
-	  								</td>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">8</span>
-										</button>
-	  								</td>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">9</span>
-										</button>
-	  								</td>
-	  							</tr>
-	  							<tr>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">4</span>
-										</button>
-	  								</td>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">5</span>
-										</button>
-	  								</td>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">6</span>
-										</button>
-	  								</td>
-	  							</tr>
-	  							<tr>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">1</span>
-										</button>
-	  								</td>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">2</span>
-										</button>
-	  								</td>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">3</span>
-										</button>
-	  								</td>
-	  							</tr>
-	  							<tr>
-	  								<td>
-	  									&nbsp;
-	  								</td>
-	  								<td>
-	  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-											<span class="input ui-button-text">0</span>
-										</button>
-	  								</td>
-	  								<td>
-	  									&nbsp;
-	  								</td>
-	  							</tr>
-  							</tbody>
-  						</table>
-  					</td>
-  					<td width="35%">&nbsp;</td>
-  				</tr>
-  			</table>
+						</div>
+	  				</th>
+	  				<th width="2%"></th>
+	  			</tr>
+	  		</table>
+	  	</div>
+	  	
+	  	<table id="loginTable" border="0" width="100%" style="margin-top: 100px;display: none;" cellpadding="0" cellspacing="0">
+ 				<tr>
+ 					<td width="40%">&nbsp;</td>
+ 					<td style="border:#333 1px dashed;">
+ 						<table border="0" width="100%" cellpadding="0" cellspacing="0">
+ 							<thead>
+  							<tr>
+  								<td colspan="3">
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span id="pass" class="ui-button-text" style="width: 80px;">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</span>
+									</button>
+  								</td>
+  							</tr>
+ 							</thead>
+ 							<tbody>
+ 								<tr>
+  								<td colspan="3" height="20px;">
+  									&nbsp;
+  								</td>
+  							</tr>
+  							<tr>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">7</span>
+									</button>
+  								</td>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">8</span>
+									</button>
+  								</td>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">9</span>
+									</button>
+  								</td>
+  							</tr>
+  							<tr>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">4</span>
+									</button>
+  								</td>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">5</span>
+									</button>
+  								</td>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">6</span>
+									</button>
+  								</td>
+  							</tr>
+  							<tr>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">1</span>
+									</button>
+  								</td>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">2</span>
+									</button>
+  								</td>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">3</span>
+									</button>
+  								</td>
+  							</tr>
+  							<tr>
+  								<td>
+  									&nbsp;
+  								</td>
+  								<td>
+  									<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+										<span class="input ui-button-text">0</span>
+									</button>
+  								</td>
+  								<td>
+  									&nbsp;
+  								</td>
+  							</tr>
+ 							</tbody>
+ 						</table>
+ 					</td>
+ 					<td width="35%">&nbsp;</td>
+ 				</tr>
+ 			</table>
   	</div>
   	
   	<!-- 系统主题修改对话框   -->

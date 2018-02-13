@@ -20,7 +20,7 @@
   <body>
   
   	<div class="ui-widget" style="font-size: 14px;">
-		<div class="ui-state-highlight ui-corner-all" style="height: 60px;">
+		<div class="ui-state-highlight ui-corner-all" style="height: 75px;">
 			<div class="menuDiv" style="margin-top: 1px;">
 				<table border="0" width="100%">
 					<tr>

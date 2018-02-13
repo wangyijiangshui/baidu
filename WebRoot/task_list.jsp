@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>spider</title>
+    <title>工作任务</title>
     <!-- 导入框架css和js库 -->
 	<jsp:include page="head-ui-1.10.4.jsp"></jsp:include>
     <script type="text/javascript" src="js/task.js"></script>
@@ -19,7 +19,7 @@
   <body>
   
   	<div class="ui-widget" style="font-size: 14px;">
-		<div class="ui-state-highlight ui-corner-all" style="height: 60px;">
+		<div class="ui-state-highlight ui-corner-all" style="height: 75px;">
 			<div class="menuDiv" style="margin-top: 1px;">
 				<table border="0" width="100%">
 					<tr>

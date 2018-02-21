@@ -6,22 +6,19 @@ package com.duapp.vo;
  * @author Js
  * @date 2013-04-09
  */
-public class Message {
+public class BaseMessage {
 
 	private boolean result;
 	private String msg;
+	private Object data;
 
-	public Message(boolean result, String msg) {
+	public BaseMessage(boolean result) {
 		this.result = result;
-		this.msg = msg;
 	}
 	
-	public Message(String msg) {
-		this.msg = msg;
-	}
-
-	public Message(boolean result) {
+	public BaseMessage(boolean result, String msg) {
 		this.result = result;
+		this.msg = msg;
 	}
 
 	public boolean isResult() {
@@ -39,4 +36,13 @@ public class Message {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+
 }

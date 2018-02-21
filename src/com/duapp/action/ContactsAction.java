@@ -20,7 +20,7 @@ import com.duapp.vo.Contacts;
 import com.duapp.vo.ContactsPhoto;
 import com.duapp.vo.ContactsRemark;
 import com.duapp.vo.ContactsType;
-import com.duapp.vo.Message;
+import com.duapp.vo.BaseMessage;
 
 public class ContactsAction extends HttpServlet {
 
@@ -193,7 +193,7 @@ public class ContactsAction extends HttpServlet {
 				DBUtil.close(rs, pstmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -339,7 +339,7 @@ public class ContactsAction extends HttpServlet {
 				DBUtil.close(pstmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -374,7 +374,7 @@ public class ContactsAction extends HttpServlet {
 				DBUtil.close(pstmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -446,7 +446,7 @@ public class ContactsAction extends HttpServlet {
 				DBUtil.close(rs, pstmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**

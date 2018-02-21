@@ -9,47 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jsoup.helper.StringUtil;
+
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
-import com.duapp.vo.Message;
-import com.duapp.vo.StockRemark;
+import com.duapp.vo.BaseMessage;
+import com.duapp.vo.Task;
 import com.duapp.vo.TaskCome;
+import com.duapp.vo.TaskRemark;
 
-public class TaskAction extends HttpServlet {
-
-	/**
-	 * Constructor of the object.
-	 */
-	public TaskAction() {
-		super();
-	}
-
-	/**
-	 * Destruction of the servlet. <br>
-	 */
-	public void destroy() {
-		super.destroy(); // Just puts "destroy" string in log
-		// Put your code here
-	}
-
-	/**
-	 * The doGet method of the servlet. <br>
-	 *
-	 * This method is called when a form has its tag value method equals to get.
-	 * 
-	 * @param request the request send by the client to the server
-	 * @param response the response send by the server to the client
-	 * @throws ServletException if an error occurred
-	 * @throws IOException if an error occurred
-	 */
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-			this.doPost(request, response);
-	}
+/**
+ * @author	Administrator
+ * @date	2018-02-21
+ */
+public class TaskAction extends BaseAction {
 
 	/**
 	 * The doPost method of the servlet. <br>
@@ -71,14 +47,19 @@ public class TaskAction extends HttpServlet {
 		} else if ("queryComes".equals(method)){
 			this.queryComes(request, response);
 		//保存任务状态+备注修改数据
-		} else if ("statusChange".equals(method)) {
-			this.statusChange(request, response);
+		} else if ("updateTask".equals(method)) {
+			this.updateTask(request, response);
 		//删除任务
 		} else if ("deleteTask".equals(method)) {
 			this.deleteTask(request, response);
 		//加载指定任务的历史详细备注信息
 		} else if ("loadHistoryRemark".equals(method)) {
 			this.loadHistoryRemark(request, response);
+		//Add or update task remark 
+		} else if ("addOrUpdateTaskRemark".equals(method)) {
+			this.addOrUpdateTaskRemark(request, response);
+		} else if ("loadTaskById".equals(method)) {
+			this.loadTaskById(request, response);
 		}
 	}
 	
@@ -108,7 +89,7 @@ public class TaskAction extends HttpServlet {
 				DBUtil.close(stmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -117,43 +98,81 @@ public class TaskAction extends HttpServlet {
 	 * @param request
 	 * @param response
 	 */
-	public void statusChange(HttpServletRequest request, HttpServletResponse response) {
+	public void updateTask(HttpServletRequest request, HttpServletResponse response) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		String task = request.getParameter("task");
+		String taskStatus = request.getParameter("taskStatus");
+		String taskId = request.getParameter("taskId");
+		boolean result = false;
+		try {
+			conn = DBUtil.getConnection();
+			sql = "update tbl_task set task=?,taskStatus=?,finishTime=now() where id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, task);
+			pstmt.setInt(2, Integer.parseInt(taskStatus));
+			pstmt.setInt(3, Integer.parseInt(taskId));
+			pstmt.executeUpdate();
+			result = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt, conn);
+		}
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
+	}
+
+	/**
+	 * Add or update task remark
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void addOrUpdateTaskRemark(HttpServletRequest request, HttpServletResponse response) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
 		String remark = request.getParameter("remark");
-		String status = request.getParameter("status");
-		String id = request.getParameter("id");
+		String isLatestRemark = request.getParameter("isLatestRemark");
+		String taskId = request.getParameter("taskId");
+		String remarkId = request.getParameter("remarkId");
 		boolean result = false;
-		if (null != id) {
-			try {
-				conn = DBUtil.getConnection();
-				sql = "update tbl_task set taskStatus='"+status+"',finishTime=now() "+((null != remark && !"".equals(remark)) ? ",remark=?":"")+" where id="+id;
+		
+		try {
+			conn = DBUtil.getConnection();
+			/** if remark is Latest(new remark = latest remark), then shoud update the remark field in task table*/
+			if ("1".equals(isLatestRemark) || StringUtil.isBlank(remarkId)) {
+				sql = "update tbl_task set remark=?,finishTime=now() where id=?";
 				pstmt = conn.prepareStatement(sql);
-				if(null != remark && !"".equals(remark)) {
-					pstmt.setString(1, remark);
-				}
-				if(pstmt.executeUpdate() > 0) {
-					if (null != remark && !"".equals(remark)) {
-						sql = "insert into `tbl_task_remark`(`taskId`,`remark`,`createTime`) VALUES("+id+",?,now()) ;";
-						pstmt = conn.prepareStatement(sql);
-						pstmt.setString(1, remark);
-						if(pstmt.executeUpdate() > 0) {
-							result = true;
-						}
-					} else {
-						result = true;
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				DBUtil.close(pstmt, conn);
+				pstmt.setString(1, remark);
+				pstmt.setInt(2, Integer.parseInt(taskId));
+				pstmt.executeUpdate();
 			}
+			
+			/** If remarkId exist then update, else add*/
+			if (!StringUtil.isBlank(remarkId)) {
+				sql = "update tbl_task_remark set remark=? where id=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, remark);
+				pstmt.setInt(2, Integer.parseInt(remarkId));
+				pstmt.executeUpdate();
+			} else {
+				sql = "insert into `tbl_task_remark`(`taskId`,`remark`,`createTime`) VALUES(?,?,now());";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(taskId));
+				pstmt.setString(2, remark);
+				pstmt.executeUpdate();
+			}
+			result = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(pstmt, conn);
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
-
+	
 	/**
 	 * 新增任务
 	 * 
@@ -193,7 +212,7 @@ public class TaskAction extends HttpServlet {
 				DBUtil.close(pstmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -239,33 +258,68 @@ public class TaskAction extends HttpServlet {
 		Statement stmt = null;
 		ResultSet rs = null;
 		String sql = null;
-		List<StockRemark> remarks = new ArrayList<StockRemark>();
-		StockRemark remark = null;
-		String id = request.getParameter("id");
+		
+		Task task = new Task();
+		List<TaskRemark> taskRemarks = new ArrayList<TaskRemark>();
+		TaskRemark taskRemark = null;
+		String taskId = request.getParameter("taskId");
 		try {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
-			sql = "SELECT remark,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime  FROM `tbl_task_remark` WHERE taskId="+id+" ORDER BY id DESC";
+			sql = "SELECT id,remark,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime FROM `tbl_task_remark` WHERE taskId="+taskId+" ORDER BY id DESC";
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
-				remark = new StockRemark();
-				remark.setRemark(rs.getString("remark"));
-				remark.setCreateTime(rs.getString("createTime"));
-				remarks.add(remark);
+				taskRemark = new TaskRemark();
+				taskRemark.setId(rs.getInt("id"));
+				taskRemark.setRemark(rs.getString("remark"));
+				taskRemark.setCreateTime(rs.getString("createTime"));
+				taskRemarks.add(taskRemark);
 			}
-			sql = "SELECT task,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime  FROM `tbl_task` WHERE id="+id;
+			sql = "SELECT id,task,DATE_FORMAT(createTime,'%Y-%m-%d %H:%i') createTime FROM `tbl_task` WHERE id="+taskId;
 			rs = stmt.executeQuery(sql);
 			if(rs.next()) {
-				remark = new StockRemark();
-				remark.setRemark(rs.getString("task"));
-				remark.setCreateTime(rs.getString("createTime"));
-				remarks.add(remark);
+				task.setId(rs.getInt("id"));
+				task.setTask(rs.getString("task"));
+				task.setCreateTime(rs.getString("createTime"));
+			}
+			task.setTaskRemarks(taskRemarks);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs, stmt, conn);
+		}
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(task), response);
+	}
+	
+	/**
+	 * Load task info by taskId
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	public void loadTaskById(HttpServletRequest request, HttpServletResponse response) {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		Task task = null;
+		String taskId = request.getParameter("taskId");
+		try {
+			conn = DBUtil.getConnection();
+			stmt = conn.createStatement();
+			sql = "SELECT id,task,taskStatus FROM `tbl_task` WHERE id="+taskId;
+			rs = stmt.executeQuery(sql);
+			if(rs.next()) {
+				task = new Task();
+				task.setId(rs.getInt("id"));
+				task.setTask(rs.getString("task"));
+				task.setTaskStatus(rs.getInt("taskStatus"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			DBUtil.close(rs, stmt, conn);
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(remarks), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(task), response);
 	}
 }

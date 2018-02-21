@@ -4,7 +4,7 @@ package com.duapp.vo;
  * 任务来源
  * 
  * @author Administrator
- * 
+ * @date	2018-02-21
  */
 public class TaskCome {
 

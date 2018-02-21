@@ -20,7 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.duapp.util.CommonUtil;
-import com.duapp.vo.Message;
+import com.duapp.vo.BaseMessage;
 
 public class UploadAction extends HttpServlet {
 
@@ -121,6 +121,6 @@ public class UploadAction extends HttpServlet {
         } catch (Exception e) {  
             e.printStackTrace();
         }
-        CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(!"".equals(newFileName) ? true:false, newFileName)), response);
+        CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(!"".equals(newFileName) ? true:false, newFileName)), response);
 	}
 }

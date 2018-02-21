@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import com.duapp.dao.network.StockDao;
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
-import com.duapp.vo.Message;
+import com.duapp.vo.BaseMessage;
 import com.duapp.vo.StockRemark;
 
 public class StockAction extends HttpServlet {
@@ -128,7 +128,7 @@ public class StockAction extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result, CommonUtil.fromObjctToJson(list))), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result, CommonUtil.fromObjctToJson(list))), response);
 	}
 	
 	/**
@@ -208,7 +208,7 @@ public class StockAction extends HttpServlet {
 			DBUtil.close(stmt, conn);
 			DBUtil.close(updateStmt, null);
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -314,7 +314,7 @@ public class StockAction extends HttpServlet {
 			DBUtil.close(updateStmt, null);
 			DBUtil.close(rs, stmt, conn);
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -362,7 +362,7 @@ public class StockAction extends HttpServlet {
 				DBUtil.close(stmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -391,7 +391,7 @@ public class StockAction extends HttpServlet {
 				DBUtil.close(stmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -424,7 +424,7 @@ public class StockAction extends HttpServlet {
 				DBUtil.close(stmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -486,6 +486,6 @@ public class StockAction extends HttpServlet {
 				DBUtil.close(stmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 }

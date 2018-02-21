@@ -18,6 +18,7 @@
   
   <body>
   
+  	<!-- ======================= Task menu button ======================== -->
   	<div class="ui-widget" style="font-size: 14px;">
 		<div class="ui-state-highlight ui-corner-all" style="height: 75px;">
 			<div class="menuDiv" style="margin-top: 1px;">
@@ -57,20 +58,20 @@
 		}
 	%>
 
+	<!-- ======================= Task list ======================== -->
 	<table width="100%" class="taskTable" border="0" cellpadding="4" cellspacing="4" style="margin-top: 5px;margin-bottom: 5px;font-size: 20px;">
 		<tr>
-			<th width="6%" align="center" style="height:50px;">A</th><!-- 序号 -->
-			<th align="center">B</th><!-- 任务内容-备注 -->
+			<th width="6%" style="height:50px;">A</th><!-- 序号 -->
+			<th>B</th><!-- 任务内容-备注 -->
 			<th width="2%">&nbsp;</th>
-			<th width="13%" align="center"><a target="_self" href="task_list.jsp?orderby=a.endTime&ascOrDesc=<%=ascOrDesc%>">C</a></th><!-- 任务要求完成时间 -->
-			<th width="4%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskType&ascOrDesc=<%=ascOrDesc%>">D</a></th><!-- 类型 -->
-			<th width="5%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskVolume&ascOrDesc=<%=ascOrDesc%>">E</a></th><!-- 任务大小 -->
-			<th width="5%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskUrgency&ascOrDesc=<%=ascOrDesc%>">F</a></th><!-- 紧急程度 -->
-			<th width="8%" align="center"><a target="_self" href="task_list.jsp?orderby=a.taskCome&ascOrDesc=<%=ascOrDesc%>">H</a></th><!-- 任务来源 -->
-			<th width="9%" align="center">G</th><!-- 状态 -->
+			<th width="13%"><a target="_self" href="task_list.jsp?orderby=a.endTime&ascOrDesc=<%=ascOrDesc%>">C</a></th><!-- 任务要求完成时间 -->
+			<th width="4%"><a target="_self" href="task_list.jsp?orderby=a.taskType&ascOrDesc=<%=ascOrDesc%>">D</a></th><!-- 类型 -->
+			<th width="5%"><a target="_self" href="task_list.jsp?orderby=a.taskVolume&ascOrDesc=<%=ascOrDesc%>">E</a></th><!-- 任务大小 -->
+			<th width="5%"><a target="_self" href="task_list.jsp?orderby=a.taskUrgency&ascOrDesc=<%=ascOrDesc%>">F</a></th><!-- 紧急程度 -->
+			<th width="8%"><a target="_self" href="task_list.jsp?orderby=a.taskCome&ascOrDesc=<%=ascOrDesc%>">H</a></th><!-- 任务来源 -->
+			<th width="9%">G</th><!-- 状态 -->
 		</tr>
 	</table>
-					  		
   	<div id="listDiv" style="overflow: auto;width: 100%;height:500px;">
 	  	<table class="taskTable" width="100%" border="0" cellpadding="0" cellspacing="0">
 		    <%
@@ -101,40 +102,50 @@
 			%>
 						<tr class="taskTr" id="tr<%=rs.getInt("id")%>"">
 			  				<!-- 序号 -->
-			  				<td style="height:40px;">
+			  				<td width="6%" style="height:40px;">
 			  					<span style="cursor: pointer;" class="sequence" taskId="<%=rs.getInt("id")%>"><%=(++i)+"-"+(++j)%></span>
 			  				</td>
 			  				<!-- 任务内容 -->
 			  				<td>
 			  					<%=rs.getString("task")%>
-			  					<%=null != rs.getObject("remark") ? "<font style='cursor: pointer;' color='red' onclick='openRemarkViewDialog(\""+(rs.getInt("id"))+"\")'>[备注]</font>":"" %>
+			  					<%
+			  						if (null != rs.getObject("remark")) {
+	  							%>
+	  								<font style='cursor: pointer;' color='red' onclick='openRemarkViewDialog("<%=rs.getInt("id")%>")'>[备注]</font>
+	  							<%	
+			  						} else {
+	  							%>
+	  								<font style='cursor: pointer;' color='grey' onclick='openRemarkViewDialog("<%=rs.getInt("id")%>")'>[备注]</font>
+	  							<%
+			  						}
+			  					%>
 			  				</td>
-			  				<td>
+			  				<td width="2%">
 			  					&nbsp;
 			  				</td>
 			  				<!-- 任务要求完成时间 -->
-			  				<td>
+			  				<td width="13%">
 			  					<%=CommonUtil.formatDate(rs.getTimestamp("endTime"), "yyyy-MM-dd")%>
 			  					<font color="red"><%=rs.getInt("behindDay")> 0 ? "("+rs.getInt("behindDay")+")":""%></font>
 			  				</td>
 			  				<!-- 类型 -->
-			  				<td>
+			  				<td width="4%">
 			  					<%=ConvertUtil.convertTaskType(rs.getInt("taskType"))%>
 			  				</td>
 			  				<!-- 任务大小 -->
-			  				<td>
+			  				<td width="5%">
 			  					<%=ConvertUtil.convertTaskVolume(rs.getInt("taskVolume"))%>
 			  				</td>
 			  				<!-- 紧急程度 -->
-			  				<td>
+			  				<td width="5%">
 			  					<%=ConvertUtil.convertTaskUrgency(rs.getInt("taskUrgency"))%>
 			  				</td>
 			  				<!-- 任务来源 -->
-			  				<td>
+			  				<td width="8%">
 			  					<%=rs.getString("taskCome")%>
 			  				</td>
 			  				<!-- 状态 -->
-			  				<td>
+			  				<td width="9%">
 			  					<%
 			  						int status = rs.getInt("taskStatus");
 			  						String color = null;
@@ -145,7 +156,7 @@
 			  					<%		
 			  						} else {
 			  					%>
-				  					<button id="add_task_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;">
+				  					<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;">
 										<span taskId="<%=rs.getInt("id")%>" class="taskStatus ui-button-text"><%=ConvertUtil.convertTaskStatus(rs.getInt("taskStatus"))%></span>
 									</button>
 			  					<%	
@@ -164,7 +175,7 @@
 	  	</table>
   	</div>
   	
-  	<!-- 任务新增或修改对话框  -->
+  	<!-- ======================= Task add dialog ======================== -->
   	<div id="addOrEditTaskDialog" style="display: none;">
   		<form action="#" id="addOrEditForm">
   			<input type="hidden" name="id"/>
@@ -239,8 +250,8 @@
   		</form>
   	</div>
   	
-  	<!-- 状态修改对话框  -->
-  	<div id="statusChangeDialog" style="display: none;">
+  	<!-- ======================= Task update dialog ======================== -->
+  	<div id="updateTaskDialog" style="display: none;">
  		<table width="100%" class="ui-widget-content">
   			<tr>
   				<td width="15%">状态</td>
@@ -255,31 +266,52 @@
   				</td>
   			</tr>
   			<tr>
-  				<td >备注</td>
+  				<td >任务</td>
   				<td>
-  					<textarea name="remark" rows="9" style="width: 510px;"></textarea>
+  					<textarea name="task" rows="9" style="width: 510px;"></textarea>
   				</td>
   			</tr>
   		</table>
   	</div>
   	
+  	<!-- ======================= Task remark view dialog ======================== -->
   	<div id="remarkViewDialog">
   		<table width="100%" class="ui-widget-content" id="taskViewTable" style="word-break: break-all;word-wrap: break-word;overflow: auto;margin-bottom: 25px;">
   			
   		</table>
+  		
+  		<div style="width:100%;text-align: right;color:red;cursor: pointer;" onclick="$('#remarkAddTable').toggle();">
+  			New remark
+		</div>
+		<table id="remarkAddTable" width="100%" style="display: none;">
+			<tr>
+				<td>
+					<textarea name="addRemark" rows="3" style="width: 97%"></textarea>
+				</td>
+				<td width="10%" style="text-align: right;">
+					<button class="ui-button ui-widget ui-state-default ui-button-text-only" onclick="addRemark()">
+						<span class="ui-button-text">Save</span>
+					</button>
+				</td>
+			</tr>
+		</table>
+		
   		<table width="100%" class="taskTable ui-widget-content" id="remarkViewTable" style="word-break: break-all;word-wrap: break-word;overflow: auto;">
   			
   		</table>
   	</div>
   	
+  	<!-- ======================= Process dialog ======================== -->
   	<div id="processDialog" style="display: none;">
-  		处理中，请稍后....
+  		processing, wait....
   	</div>
   	
+  	<!-- ======================= Task time arrange dialog ======================== -->
   	<div id="taskTimeDialog" style="display: none;">
   		<iframe  frameborder="0" height="550px" width="1000px" src="task_time.jsp"></iframe>
   	</div>
   	
+  	<!-- ======================= Task goal dialog ======================== -->
   	<div id="taskGoalDialog" style="display: none;">
   		<iframe  frameborder="0" height="550px" width="1050px" src="task_goal.jsp"></iframe>
   	</div>

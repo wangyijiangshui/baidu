@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
-import com.duapp.vo.Message;
+import com.duapp.vo.BaseMessage;
 import com.duapp.vo.UserData;
 
 public class IndexAction extends BaseAction{
@@ -79,6 +79,6 @@ public class IndexAction extends BaseAction{
 				DBUtil.close(pstmt, conn);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 }

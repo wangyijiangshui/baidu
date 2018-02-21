@@ -299,7 +299,7 @@
 	  	
 	  	<table id="loginTable" border="0" width="100%" style="margin-top: 100px;display: none;" cellpadding="0" cellspacing="0">
  				<tr>
- 					<td width="40%">&nbsp;</td>
+ 					<td width="35%">&nbsp;</td>
  					<td style="border:#333 1px dashed;">
  						<table border="0" width="100%" cellpadding="0" cellspacing="0">
  							<thead>

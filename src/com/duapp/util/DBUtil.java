@@ -7,10 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * 
- * 
- * @author Administrator
- *
+ * @author	Administrator
+ * @date	2018-02-21
  */
 public class DBUtil {
 
@@ -21,7 +19,8 @@ public class DBUtil {
 	public static Connection getConnection() {
 		Connection conn = null;
 		try {
-			String databaseName = "sBanHmsWVscLxJvnfqRN"; 
+			String databaseName = "sBanHmsWVscLxJvnfqRN";
+			//String databaseName = "baidutest";
 			String host = "127.0.0.1";
 			String port = "3306";
 			String username = "root";

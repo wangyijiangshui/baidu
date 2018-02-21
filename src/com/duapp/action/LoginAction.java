@@ -12,9 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.duapp.util.CommonUtil;
 import com.duapp.util.DBUtil;
-import com.duapp.vo.Message;
+import com.duapp.vo.BaseMessage;
 import com.duapp.vo.UserData;
 
+/**
+ * @author Administrator
+ * @date 2018-02-21
+ */
 public class LoginAction extends HttpServlet {
 
 	/**
@@ -70,7 +74,7 @@ public class LoginAction extends HttpServlet {
 				request.getSession().setAttribute("user", user);
 			}
 		}
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(result)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(result)), response);
 	}
 	
 	/**
@@ -82,7 +86,7 @@ public class LoginAction extends HttpServlet {
 	public void exit(HttpServletRequest request, HttpServletResponse response) {
 		request.getSession().removeAttribute("user");
 		request.getSession().invalidate();
-		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new Message(true)), response);
+		CommonUtil.sendJsonDataToClient(CommonUtil.fromObjctToJson(new BaseMessage(true)), response);
 	}
 	
 	/**

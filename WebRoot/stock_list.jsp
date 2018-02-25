@@ -73,10 +73,10 @@
 			<th width="7%" align="left">gpjzqz<!-- 分类 --></th>
 			
 			<th width="7%" align="left"><a target="_self" href="stock_list.jsp?orderby=icbhy&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">icbhy</a><!-- ICB行业 --></th>
-			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=ltag&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">ltag</a><!-- 流通A股 --></th>
-			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=mgsy&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">mgsy</a><!-- 每股收益 --></th>
+			<th width="4%" align="left"><a target="_self" href="stock_list.jsp?orderby=ltag&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">ltag</a><!-- 流通A股 --></th>
+			<th width="4%" align="left"><a target="_self" href="stock_list.jsp?orderby=mgsy&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">mgsy</a><!-- 每股收益 --></th>
 			<th width="3%" align="left"><a target="_self" href="stock_list.jsp?orderby=jtsyl&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">jtsyl</a><!-- 静态市盈率 --></th>
-			<th width="7%" align="left"><a target="_self" href="stock_list.jsp?orderby=sssj&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">sssj</a><!-- 上市时间 --></th>
+			<th width="5%" align="left"><a target="_self" href="stock_list.jsp?orderby=sssj&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">sssj</a><!-- 上市时间 --></th>
 			
 			<th align="left"><a target="_self" href="stock_list.jsp?orderby=remarkTime&ascOrDesc=<%=ascOrDesc%>&where=<%=where%>">remarkTime</a><!-- 最后查看时间距离当前天数-备注 --></th>
 			<th width="10%" align="left">updateType</th><!-- 最后修改变更类型 -->
@@ -171,11 +171,11 @@
 			  					<%=null == rs.getString("icbhy") ? "" : rs.getString("icbhy")%>
 			  				</td>
 			  				<!-- 流通A股 -->
-			  				<td width="3%">
+			  				<td width="4%">
 			  					<%=null == rs.getString("ltag") ? "" : rs.getString("ltag")%>
 			  				</td>
 			  				<!-- 每股收益 -->
-			  				<td width="3%">
+			  				<td width="4%">
 			  					<%=null == rs.getString("mgsy") ? "" : rs.getString("mgsy")%>
 			  				</td>
 			  				<!-- 静态市盈率 -->
@@ -183,7 +183,7 @@
 			  					<%=null == rs.getString("jtsyl") ? "" : rs.getString("jtsyl")%>
 			  				</td>
 			  				<!-- 上市时间 -->
-			  				<td width="7%">
+			  				<td width="5%">
 			  					<%=null == rs.getString("sssj") ? "" : rs.getString("sssj")%>
 			  				</td>
 			  				

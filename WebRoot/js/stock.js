@@ -145,23 +145,20 @@ function refreshBaseButton() {
  */
 function refreshPageButton() {
 	$.each($(".hqxx"), function(i, v){
-		$(this).html("&nbsp;");
+		$(this).find("a").html("&nbsp;");
 	});
 	$.post("stock.do?method=refreshPageButton",{},function(data){
 	    if(data && data.result) {
 			$.each(eval('('+data.msg+')'), function(i, v){
 				if (v.zdbl > 0) {
-					$("#gpjg"+v.gpdm).html(v.gpjg);
-					$("#zde"+v.gpdm).html('<font color="">↑+'+v.zde+'</font>');
-					$("#zdbl"+v.gpdm).html('<font color="">↑+'+v.zdbl+'%</font>');
+					$("#gpjg"+v.gpdm).find("a").html(v.gpjg);
+					$("#zdbl"+v.gpdm).find("a").html('<font color="red">↑+'+v.zdbl+'%</font>');
 				} else if (v.zdbl < 0) {
-					$("#gpjg"+v.gpdm).html(v.gpjg);
-					$("#zde"+v.gpdm).html('<font color="">↓'+v.zde+'</font>');
-					$("#zdbl"+v.gpdm).html('<font color="">↓'+v.zdbl+'%</font>');
+					$("#gpjg"+v.gpdm).find("a").html(v.gpjg);
+					$("#zdbl"+v.gpdm).find("a").html('<font color="green">↓'+v.zdbl+'%</font>');
 				} else {
-					$("#gpjg"+v.gpdm).html(v.gpjg);
-					$("#zde"+v.gpdm).html(v.zde);
-					$("#zdbl"+v.gpdm).html(v.zdbl+'%');
+					$("#gpjg"+v.gpdm).find("a").html(v.gpjg);
+					$("#zdbl"+v.gpdm).find("a").html(v.zdbl+'%');
 				}
 			});		    	
 	    }

@@ -103,25 +103,26 @@ public class StockAction extends HttpServlet {
 		String url = null;
 		String[]  gpInfos = null;
 		try {
-			url = "http://quote.tool.hexun.com/hqzx/quote.aspx?type=2&market=2&sorttype=3&updown=up&page=1&count=2000&time=0";
-			xmlDoc = CommonUtil.getURLContent(url, "gbk");
-			xmlDoc = xmlDoc.substring(xmlDoc.indexOf("= ")+3, xmlDoc.indexOf("];")).trim();
-			gpdms = xmlDoc.split("],");
-			for (String gpdm : gpdms) {
-				try {
-					gpInfos = gpdm.trim().replace("[", "").replace("'", "").replace("]", "").split(",");
-					
-					map = new HashMap<String, String>();
-					map.put("gpdm", gpInfos[0]);//搜索股票代码
-					map.put("gsmc", gpInfos[1]);//搜索股票名称
-					map.put("gpjg", gpInfos[2]);//搜索股票价格
-					String zde = ((Float.parseFloat(gpInfos[2])*Float.parseFloat(gpInfos[3]))/100)+"";
-					zde = zde.length() > 4 ? zde.substring(0,4) : zde;
-					map.put("zde", zde);//搜索股票涨跌额
-					map.put("zdbl", gpInfos[3]);//搜索股票涨跌比率
-					list.add(map);
-				} catch (Exception e) {
-					e.printStackTrace();
+			for (int page =1 ; page <= 2; page ++) {
+				url = "http://quote.tool.hexun.com/hqzx/quote.aspx?type=2&market=0&sorttype=3&updown=up&page="+page+"&count=2000&time=0";
+				xmlDoc = CommonUtil.getURLContent(url, "gbk");
+				xmlDoc = xmlDoc.substring(xmlDoc.indexOf("= ")+3, xmlDoc.indexOf("];")).trim();
+				gpdms = xmlDoc.split("],");
+				for (String gpdm : gpdms) {
+					try {
+						gpInfos = gpdm.trim().replace("[", "").replace("'", "").replace("]", "").split(",");
+						map = new HashMap<String, String>();
+						map.put("gpdm", gpInfos[0]);//搜索股票代码
+						map.put("gsmc", gpInfos[1]);//搜索股票名称
+						map.put("gpjg", gpInfos[2]);//搜索股票价格
+						String zde = ((Float.parseFloat(gpInfos[2])*Float.parseFloat(gpInfos[3]))/100)+"";
+						zde = zde.length() > 4 ? zde.substring(0,4) : zde;
+						map.put("zde", zde);//搜索股票涨跌额
+						map.put("zdbl", gpInfos[3]);//搜索股票涨跌比率
+						list.add(map);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			result = true;
@@ -156,7 +157,7 @@ public class StockAction extends HttpServlet {
 			stmt = conn.createStatement();
 			updateStmt = conn.createStatement();
 			//先清空数据库中股票的价格信息数据
-			sql = "update tbl_gp set gpjg=0,zde=0,zdbl=0,huanShou=0,zhenFu=0,liangBi=0";
+			sql = "update tbl_gp set gpjg=0,zde=0,zdbl=0,huanShou=0,zhenFu=0,liangBi=0 where ts!=1";
 			updateStmt.executeUpdate(sql);
 			int index = 0;
 			
@@ -235,7 +236,7 @@ public class StockAction extends HttpServlet {
 			conn = DBUtil.getConnection();
 			stmt = conn.createStatement();
 			updateStmt = conn.createStatement();
-			sql = "SELECT gpdm,icbhy,ltag FROM tbl_gp order by gpjzqz desc";
+			sql = "SELECT gpdm,icbhy,ltag FROM tbl_gp where ts!=1 order by gpjzqz desc";
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				index = index + 1;
@@ -272,6 +273,8 @@ public class StockAction extends HttpServlet {
 					    }
 					    if (null == ltag || "".equals(ltag)) {
 					    	ltag = "0";
+					    } else {
+					    	ltag = ltag.replace(",", "");
 					    }
 					    
 					    //每股收益 <td width='70' class='tb2_new'>0.73</td>
@@ -279,6 +282,13 @@ public class StockAction extends HttpServlet {
 					    m = p.matcher(xmlDoc);
 					    if(m.find()) {
 					    	mgsy = m.group(1);
+					    }
+					    //“--”表示退市
+					    if ("--".equals(mgsy)) {
+					    	sql = "update tbl_gp set ts=1 where gpdm='"+gpdm+"'";
+					    	updateStmt.executeUpdate(sql);
+						    log.info(index+"："+sql);
+						    continue;
 					    }
 					    if (null == mgsy || "".equals(mgsy) || CommonUtil.StringToFloat(mgsy) <= 0) {
 					    	mgsy = "0";
@@ -411,7 +421,7 @@ public class StockAction extends HttpServlet {
 			try {
 				conn = DBUtil.getConnection();
 				stmt = conn.createStatement();
-				sql = "update tbl_gp set remark='"+remark+"',remarkTime=now() where gpdm='"+gpdm+"'";
+				sql = "update tbl_gp set remark='"+remark+"' where gpdm='"+gpdm+"'";
 				if(stmt.executeUpdate(sql) > 0) {
 					sql = "insert into `tbl_gp_remark`(`gpdm`,`remark`,`createTime`) VALUES('"+gpdm+"','"+remark+"',now()) ;";
 					if(stmt.executeUpdate(sql) > 0) {

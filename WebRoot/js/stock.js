@@ -56,6 +56,15 @@
 		modal:true
 	});
 	
+	//投资策略对话框   
+	$("#wayToStockDialog").dialog({
+		autoOpen: false,
+		height: 800,
+		width: 1000,
+		title:'Way to stock',
+		modal:true
+	});
+	
 	//刷新界面
 	$("#refresh_page_button").bind('click', function(){
 		refreshPageButton();
@@ -75,6 +84,10 @@
 	//清空新提示消息
 	$(".read_news_td").bind('click', function(){
 		readNews(this);
+	});
+	//打开投资策略对话框 
+	$("#way_to_stock_button").bind('click', function(){
+		$( "#wayToStockDialog").dialog( "open" );
 	});
 })
 

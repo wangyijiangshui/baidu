@@ -46,7 +46,7 @@ public class ConvertUtil {
 		} else if (14 == gpjzqz) {
 			return "14-卖出";
 		} else {
-			return "未知";
+			return gpjzqz+"";
 		}
 	}
 	

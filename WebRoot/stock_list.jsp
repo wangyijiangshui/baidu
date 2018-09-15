@@ -33,6 +33,9 @@
 							<button id="refresh_base_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
 								<span class="ui-button-text">Refresh Base Info</span>
 							</button>
+							<button id="way_to_stock_button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="border-radius: 10px;height:45px;width:220px;">
+								<span class="ui-button-text">Way to stock</span>
+							</button>
 						</td>
 					</tr>
 				</table>
@@ -101,14 +104,16 @@
 					rs = stmt.executeQuery(sql);
 					int i = 0;
 					int j = 0;
-					int gpjzqz = -2;
+					int gpjzqz = -100;
+					int height = 50;
 					String zdbl = null;
 					while(rs.next()) {
-						if (gpjzqz != -2 && gpjzqz != rs.getInt("gpjzqz")) {
+						if (-100 != gpjzqz && gpjzqz != rs.getInt("gpjzqz")) {
 							j = 0;
+							height = (7 == gpjzqz) ? 200 : 50;
 			%>
 						<tr>
-			  				<td colspan="16" height="50px;">&nbsp;</td>
+			  				<td colspan="16" height="<%=height%>px;">&nbsp;</td>
 			  			</tr>
 			<%	
 						}
@@ -296,6 +301,98 @@
   	<div id="remarkViewDialog" style="display: none;">
   		<table width="100%" class="gptable ui-widget-content" id="remarkViewTable" style="word-break: break-all;word-wrap: break-word;overflow: auto;">
   			
+  		</table>
+  	</div>
+  	
+  	<!-- 投资策略对话框   -->
+  	<div id="wayToStockDialog" style="display: none;">
+  		<table width="100%" class="gptable ui-widget-content" style="word-break: break-all;word-wrap: break-word;overflow: auto;">
+  			<tr>
+  				<td width="18%">投资策略</td>
+  				<td>
+  					1、长期投资、周期为3到5年<br/>
+  					2、不做短线交易<br/>
+  					3、重价值投资，辅之趋势<br/>
+  					4、分批买入<br/>
+  					5、只买熟悉的股票<br/>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td>铁的纪律</td>
+  				<td>
+  					1、不轻易换股<br/>
+  					2、不轻易买卖<br/>
+  					4、不追高<br/>
+  					5、不贪婪、不恐惧<br/>
+  					6、大跌大涨时不要急买<br/>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td>资金总额及分配</td>
+  				<td></td>
+  			</tr>
+  			<tr>
+  				<td>标的选择</td>
+  				<td>
+  					1、业绩中上、无亏损<br/>
+  					2、公司稳定，很难倒闭，行业前途好<br/>
+  					3、上市时间长，业绩、行业落后直接干掉；近五年上市的较好<br/>
+  					4、避免容易暴雷的行业：医药、食品，一旦曝光，永劫不复，可以基金代之<br/>
+  					5、避免严重依赖进口，依赖国外市场的公司（比如中兴公司,政治影响严重）<br/>
+  					5、可能实施的注册制利好券商<br/>
+  					<table style="margin-top: 20px;" width="100%" style="word-break: break-all;word-wrap: break-word;overflow: auto;" border="1" cellspacing="0" cellpadding="0">
+  						<tr>
+  							<td width="12%">行业</td>
+  							<td width="35%">精选股票</td>
+  							<td>备注</td>
+  						</tr>
+  						<tr>
+  							<td>银行</td>
+  							<td></td>
+  							<td></td>
+  						</tr>
+  						<tr>
+  							<td>证券</td>
+  							<td>国泰君安，中信证券</td>
+  							<td></td>
+  						</tr>
+  						<tr>
+  							<td>保险</td>
+  							<td></td>
+  							<td></td>
+  						</tr>
+  						<tr>
+  							<td>医药</td>
+  							<td>葵花，敖东</td>
+  							<td></td>
+  						</tr>
+  						<tr>
+  							<td>消费</td>
+  							<td>格力，美的，老板</td>
+  							<td></td>
+  						</tr>
+  						<tr>
+  							<td>不动产</td>
+  							<td>张江高科，陆家嘴</td>
+  							<td></td>
+  						</tr>
+  					</table>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td>买入</td>
+  				<td></td>
+  			</tr>
+  			<tr>
+  				<td>卖出</td>
+  				<td></td>
+  			</tr>
+  			<tr>
+  				<td>风险控制</td>
+  				<td>
+  					1、首次ST择机卖出止损<br/>
+  				</td>
+  			</tr>
   		</table>
   	</div>
   	

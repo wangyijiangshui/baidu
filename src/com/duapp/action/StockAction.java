@@ -346,15 +346,19 @@ public class StockAction extends HttpServlet {
 		//星级
 		String star = request.getParameter("star");
 		star = (null == star) ? "0":star;
+		//排序
+		String orderNum = request.getParameter("orderNum");
+		orderNum = (null == star) ? "0":orderNum;
+		
 		boolean result = false;
 		if (null != gpjzqz && null != id) {
 			try {
 				conn = DBUtil.getConnection();
 				stmt = conn.createStatement();
 				if(null != remark && !"".equals(remark)) {
-					sql = "update tbl_gp set gpjzqz="+gpjzqz+",star="+star+",remark='"+remark+"',remarkTime=now() where id="+id;
+					sql = "update tbl_gp set gpjzqz="+gpjzqz+",star="+star+",orderNum="+orderNum+",remark='"+remark+"',remarkTime=now() where id="+id;
 				} else {
-					sql = "update tbl_gp set gpjzqz="+gpjzqz+",star="+star+",remarkTime=now() where id="+id;
+					sql = "update tbl_gp set gpjzqz="+gpjzqz+",star="+star+",orderNum="+orderNum+",remarkTime=now() where id="+id;
 				}
 				if(stmt.executeUpdate(sql) > 0) {
 					if(null != remark && !"".equals(remark)) {

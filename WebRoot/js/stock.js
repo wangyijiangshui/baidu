@@ -8,7 +8,7 @@
 	//权重修改对话框   
 	$("#weightChangeDialog").dialog({
 		autoOpen: false,
-		height: 450,
+		height: 500,
 		width: 750,
 		title:'Weight Change',
 		modal:true,
@@ -94,9 +94,12 @@
 /**
  * 打开权重修改窗口
  */
- var operatorId = "";
-function openQzChangeDialog(id) {
+var operatorId = "";
+function openQzChangeDialog(id,gpjzqz,star,orderNum) {
 	operatorId = id;
+	$("#gpjzqz").val(gpjzqz);
+	$("#star").val(star);
+	$("#orderNum").val(orderNum);
 	$( "#weightChangeDialog").dialog( "open" );
 } 
 
@@ -107,7 +110,8 @@ function submitWeightChange() {
 	var gpjzqz = $("#gpjzqz").val();
 	var remark = $.trim($("#remark1").val());
 	var star = $("#star").val();
-	$.post("stock.do?method=changeWeight",{"gpjzqz":gpjzqz,"star":star,"remark":remark,"id":operatorId},function(data){
+	var orderNum = $("#orderNum").val();
+	$.post("stock.do?method=changeWeight",{"gpjzqz":gpjzqz,"star":star,"remark":remark,"id":operatorId,"orderNum":orderNum},function(data){
 	    if(data && data.result) {
 	    	alert("操作成功！");
 	    	$( "#weightChangeDialog").dialog( "close" );

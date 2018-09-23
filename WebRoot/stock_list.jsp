@@ -99,8 +99,8 @@
 				try {
 					conn = DBUtil.getConnection();
 					stmt = conn.createStatement();
-					sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,mgsy,jtsyl,sssj,star,remark,updateType,"+
-						"DATEDIFF(NOW(),remarkTime) remarkTime from tbl_gp where ts!=1 and "+where+" order by gpjzqz desc," + orderby + " " + ascOrDesc;
+					sql = "select id,gpdm,gsmc,gpjzqz,gpjg,zde,zdbl,huanShou,zhenFu,liangBi,icbhy,ltag,mgsy,jtsyl,sssj,star,orderNum,remark,updateType,"+
+						"DATEDIFF(NOW(),remarkTime) remarkTime,ts from tbl_gp where ts!=1 and "+where+" order by gpjzqz desc,orderNum asc, " + orderby + " " + ascOrDesc;
 					rs = stmt.executeQuery(sql);
 					int i = 0;
 					int j = 0;
@@ -125,6 +125,8 @@
 			  				<td width="6%">
 			  					<a target="_blank" href="<%=CommonUtil.getGpUrl("hexun", rs.getString("gpdm")) %>">
 			  						<%=rs.getString("gsmc")%>
+			  						<%=rs.getInt("ts")==2 ? "<font color='red'>♀</font>" : ""%>
+			  						<%=rs.getInt("ts")==3 ? "<font color='blue'>♂</font>" : ""%>
 			  						<%=rs.getInt("star")>0 ? "<font color='green'>★</font>" : ""%>
 			  					</a>
 			  				</td>
@@ -167,7 +169,7 @@
 			  				</td>
 		  				
 			  				<!-- 股票价值权重及类型 -->
-			  				<td width="7%" style="cursor: pointer;" onclick="openQzChangeDialog('<%=rs.getInt("id")%>')">
+			  				<td width="7%" style="cursor: pointer;" onclick="openQzChangeDialog('<%=rs.getInt("id")%>','<%=rs.getInt("gpjzqz")%>','<%=rs.getInt("star")%>','<%=rs.getInt("orderNum")%>')">
 			  					<%=ConvertUtil.convertGpfl(rs.getInt("gpjzqz"))%>
 			  				</td>
 			  				
@@ -282,6 +284,12 @@
   					<input type="text" id="star" style="width: 510px;" value="0"/>
   				</td>
   			</tr>
+  			<tr>
+  				<td>排序</td>
+  				<td>
+  					<input type="text" id="orderNum" style="width: 510px;" value="0"/>
+  				</td>
+  			</tr>
   		</table>
   	</div>
   	
@@ -338,13 +346,18 @@
   					2、公司稳定，很难倒闭，行业前途好<br/>
   					3、上市时间长，业绩、行业落后直接干掉；近五年上市的较好<br/>
   					4、避免容易暴雷的行业：医药、食品，一旦曝光，永劫不复，可以基金代之<br/>
-  					5、避免严重依赖进口，依赖国外市场的公司（比如中兴公司,政治影响严重）<br/>
+  					5、避免严重依赖进口，依赖国外市场的公司（比如中兴公司,国际政治影响严重）<br/>
   					5、可能实施的注册制利好券商<br/>
   					<table style="margin-top: 20px;" width="100%" style="word-break: break-all;word-wrap: break-word;overflow: auto;" border="1" cellspacing="0" cellpadding="0">
   						<tr>
   							<td width="12%">行业</td>
   							<td width="35%">精选股票</td>
   							<td>备注</td>
+  						</tr>
+  						<tr>
+  							<td>保险</td>
+  							<td></td>
+  							<td></td>
   						</tr>
   						<tr>
   							<td>银行</td>
@@ -354,11 +367,6 @@
   						<tr>
   							<td>证券</td>
   							<td>国泰君安，中信证券</td>
-  							<td></td>
-  						</tr>
-  						<tr>
-  							<td>保险</td>
-  							<td></td>
   							<td></td>
   						</tr>
   						<tr>

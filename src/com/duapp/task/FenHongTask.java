@@ -1,4 +1,4 @@
-package com.duapp.dao.network;
+package com.duapp.task;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,10 +23,10 @@ import com.duapp.util.DBUtil;
  * @author Administrator
  * 
  */
-public class FenHongDao {
+public class FenHongTask {
 
 	public static void main(String[] args) {
-		FenHongDao fenHongDao = new FenHongDao();
+		FenHongTask fenHongDao = new FenHongTask();
 		fenHongDao.findAllFenhongInfoAndSave();
 	}
 
